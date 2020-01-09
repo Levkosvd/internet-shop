@@ -1,4 +1,4 @@
-package mate.academy.internetshop.service.Impl;
+package mate.academy.internetshop.service.impl;
 
 import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.libr.Inject;
@@ -6,8 +6,8 @@ import mate.academy.internetshop.libr.Service;
 import mate.academy.internetshop.model.Order;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.OrderService;
-
 import java.util.List;
+
 @Service
 public class OrderServiceImpl implements OrderService {
     @Inject
@@ -19,8 +19,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order get(Long aLong) {
-        return orderDao.get(aLong).get();
+    public Order get(Long id) {
+        return orderDao.get(id).get();
     }
 
     @Override
@@ -29,8 +29,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public boolean deleteById(Long aLong) {
-        return orderDao.deleteById(aLong);
+    public boolean deleteById(Long id) {
+        return orderDao.deleteById(id);
     }
 
     @Override
@@ -46,14 +46,15 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order completeOrder(List items, User user) {
         Order newOrder = new Order();
-        newOrder.setItems(items);
-        user.getUserOrders().add(newOrder);
+        newOrder.getItems().addAll(items);
+        user.getUserOrdersList().add(newOrder);
+        newOrder.getTotalPrice();
         orderDao.create(newOrder);
         return orderDao.get(newOrder.getId()).get();
     }
 
     @Override
     public List<Order> getUserOrders(User user) {
-        return user.getUserOrders();
+        return user.getUserOrdersList();
     }
 }

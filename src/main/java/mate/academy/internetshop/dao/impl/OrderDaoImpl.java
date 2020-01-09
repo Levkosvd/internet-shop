@@ -12,6 +12,7 @@ import java.util.Optional;
 @Dao
 public class OrderDaoImpl implements OrderDao {
     private static long idGenerator = 0L;
+
     @Override
     public void create(Order order) {
         order.setId(++idGenerator);
@@ -23,7 +24,9 @@ public class OrderDaoImpl implements OrderDao {
         return Optional.ofNullable(Storage.orders
                 .stream()
                 .filter(i -> i.getId().equals(id))
-                .findFirst().orElseThrow(() -> new NoSuchElementException("Can't find order with id - " + id)));
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Can't find order with id - "
+                        + id)));
     }
 
     @Override
@@ -31,14 +34,17 @@ public class OrderDaoImpl implements OrderDao {
         Optional<Order> currentOrder = Optional.ofNullable(Storage.orders.stream()
                 .filter(s -> s.getId().equals(order.getId()))
                 .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Can't find order by id - " + order.getId())));
+                .orElseThrow(() -> new NoSuchElementException("Can't find order by id - "
+                        + order.getId())));
 
         Storage.orders.set(Storage.orders.indexOf(currentOrder.get()), order);
     }
 
     @Override
     public boolean deleteById(Long id) {
-        Order targetItem = Storage.orders.stream().filter((s) -> s.getId().equals(id)).findFirst().get();
+        Order targetItem = Storage.orders.stream()
+                .filter((s) -> s.getId().equals(id))
+                .findFirst().get();
         return Storage.orders.remove(targetItem);
     }
 

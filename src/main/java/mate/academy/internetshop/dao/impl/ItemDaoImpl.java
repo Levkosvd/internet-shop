@@ -12,6 +12,7 @@ import java.util.Optional;
 @Dao
 public class ItemDaoImpl implements ItemDao {
     private static long idGenerator = 0L;
+
     @Override
     public void create(Item item) {
         item.setId(++idGenerator);
@@ -23,7 +24,9 @@ public class ItemDaoImpl implements ItemDao {
         return Optional.ofNullable(Storage.items
                 .stream()
                 .filter(i -> i.getId().equals(id))
-                .findFirst().orElseThrow(() -> new NoSuchElementException("Can't find item with id - " + id)));
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Can't find item with id - "
+                        + id)));
     }
 
     @Override
@@ -31,7 +34,8 @@ public class ItemDaoImpl implements ItemDao {
         Optional<Item> currentItem = Optional.ofNullable(Storage.items.stream()
                 .filter(s -> s.getId().equals(item.getId()))
                 .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Can't find item by id - " + item.getId())));
+                .orElseThrow(() -> new NoSuchElementException("Can't find item by id - "
+                        + item.getId())));
 
         Storage.items.set(Storage.items.indexOf(currentItem.get()), item);
     }
@@ -41,7 +45,8 @@ public class ItemDaoImpl implements ItemDao {
         Optional<Item> targetItem = Optional.ofNullable(Storage.items.stream()
                 .filter((s) -> s.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Can't find item by id - " + id)));
+                .orElseThrow(() -> new NoSuchElementException("Can't find item by id - "
+                        + id)));
         return Storage.items.remove(targetItem.get());
     }
 

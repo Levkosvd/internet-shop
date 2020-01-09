@@ -12,6 +12,7 @@ import mate.academy.internetshop.service.UserService;
 
 import java.util.HashMap;
 import java.util.Map;
+
 public class AnnotatedClassMap {
     private static final Map<Class, Object> classMap = new HashMap<>();
 
@@ -27,6 +28,7 @@ public class AnnotatedClassMap {
         classMap.put(UserService.class, Factory.getUserService());
 
     }
+
     public static Object getImplementation(Class interfaceClass) {
         return classMap.get(interfaceClass);
     }

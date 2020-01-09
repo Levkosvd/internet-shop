@@ -1,4 +1,4 @@
-package mate.academy.internetshop.service.Impl;
+package mate.academy.internetshop.service.impl;
 
 import mate.academy.internetshop.dao.BucketDao;
 import mate.academy.internetshop.libr.Inject;
@@ -6,8 +6,8 @@ import mate.academy.internetshop.libr.Service;
 import mate.academy.internetshop.model.Bucket;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.service.BucketService;
-
 import java.util.List;
+
 @Service
 public class BucketServiceImpl implements BucketService {
     @Inject
@@ -19,8 +19,8 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public Bucket get(Long aLong) {
-        return bucketDao.get(aLong).get();
+    public Bucket get(Long id) {
+        return bucketDao.get(id).get();
     }
 
     @Override
@@ -29,8 +29,8 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public boolean deleteById(Long aLong) {
-        return bucketDao.deleteById(aLong);
+    public boolean deleteById(Long id) {
+        return bucketDao.deleteById(id);
     }
 
     @Override

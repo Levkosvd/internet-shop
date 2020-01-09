@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Order {
     private Long id;
-    private User user;
     private List<Item> items;
     private double totalPrice;
 
@@ -21,14 +20,6 @@ public class Order {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public List<Item> getItems() {
         return items;
     }
@@ -38,9 +29,9 @@ public class Order {
     }
 
     public double getTotalPrice() {
+        this.totalSum();
         return totalPrice;
     }
-
 
     private void totalSum() {
         totalPrice = items.stream().mapToDouble(Item::getPrice).sum();
@@ -48,11 +39,7 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "orderId=" + id +
-                ", user=" + user +
-                ", items=" + items +
-                ", totalPrice=" + totalPrice +
-                '}';
+        return "Order{" + "orderId=" + id + ", items="
+                + items + ", totalPrice=" + totalPrice + '}';
     }
 }

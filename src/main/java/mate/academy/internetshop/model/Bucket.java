@@ -30,10 +30,7 @@ public class Bucket {
 
     @Override
     public String toString() {
-        return "Bucket{" +
-                "bucketId=" + id +
-                ", order=" + order +
-                ", bucketItems=" + bucketItems +
-                '}';
+        return "Bucket{" + "bucketId=" + id
+                + ", order=" + order + ", bucketItems=" + bucketItems + '}';
     }
 }

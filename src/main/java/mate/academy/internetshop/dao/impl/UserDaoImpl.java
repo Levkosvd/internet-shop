@@ -12,6 +12,7 @@ import java.util.Optional;
 @Dao
 public class UserDaoImpl implements UserDao {
     private static long idGenerator = 0L;
+
     @Override
     public void create(User user) {
         user.setId(++idGenerator);
@@ -23,7 +24,9 @@ public class UserDaoImpl implements UserDao {
         return Optional.ofNullable(Storage.users
                 .stream()
                 .filter(i -> i.getId().equals(id))
-                .findFirst().orElseThrow(() -> new NoSuchElementException("Can't find order with id - " + id)));
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Can't find order with id - "
+                        + id)));
     }
 
     @Override
@@ -31,14 +34,16 @@ public class UserDaoImpl implements UserDao {
         Optional<User> currentOrder = Optional.ofNullable(Storage.users.stream()
                 .filter(s -> s.getId().equals(user.getId()))
                 .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Can't find user by id - " + user.getId())));
+                .orElseThrow(() -> new NoSuchElementException("Can't find user by id - "
+                        + user.getId())));
 
         Storage.users.set(Storage.users.indexOf(currentOrder.get()), user);
     }
 
     @Override
     public boolean deleteById(Long id) {
-        User targetItem = Storage.users.stream().filter((s) -> s.getId().equals(id)).findFirst().get();
+        User targetItem = Storage.users.stream().filter((s) -> s.getId().equals(id))
+                .findFirst().get();
         return Storage.users.remove(targetItem);
     }
 

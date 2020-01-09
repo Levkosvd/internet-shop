@@ -7,12 +7,12 @@ public class User {
     private Long id;
     private String name;
     private double accountBalance;
-    private List<Order> userOrders;
+    private List<Order> userOrdersList;
 
     public User(String name, double accountBalance) {
         this.name = name;
         this.accountBalance = accountBalance;
-        userOrders = new ArrayList<>();
+        userOrdersList = new ArrayList<>();
     }
 
     public Long getId() {
@@ -39,21 +39,17 @@ public class User {
         this.accountBalance = balance;
     }
 
-    public List<Order> getUserOrders() {
-        return userOrders;
+    public List<Order> getUserOrdersList() {
+        return userOrdersList;
     }
 
-    public void setUserOrders(List<Order> userOrders) {
-        this.userOrders = userOrders;
+    public void setUserOrdersList(List<Order> userOrders) {
+        this.userOrdersList = userOrders;
     }
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", accountBalance=" + accountBalance +
-                ", userOrders=" + userOrders +
-                '}';
+        return "User{" + "id=" + id + ", name='" + name + '\''
+                + ", accountBalance=" + accountBalance + ", userOrders=" + userOrdersList + '}';
     }
 }

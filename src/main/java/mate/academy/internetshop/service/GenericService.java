@@ -2,16 +2,15 @@ package mate.academy.internetshop.service;
 
 import java.util.List;
 
-
-public interface GenericService<T, ID> {
+public interface GenericService<T, I> {
 
     void create(T entity);
 
-    T get(ID id);
+    T get(I id);
 
     void update(T entity);
 
-    boolean deleteById(ID id);
+    boolean deleteById(I id);
 
     boolean delete(T entity);
 
