@@ -37,7 +37,7 @@ public class Main {
         itemService.create(laptop1);
         Item laptop2 = new Item("AcerEX2519", 400.0);
         itemService.create(laptop2);
-        Bucket bucket = new Bucket();
+        Bucket bucket = new Bucket(newUser);
         bucketService.clear(bucket);
         bucketService.addItem(bucket,laptop1);
         bucketService.addItem(bucket,laptop2);
@@ -45,7 +45,7 @@ public class Main {
         System.out.println("------------------");
         bucketService.getAllItems(bucket).stream().forEach(System.out::println);
         System.out.println("------------------");
-        itemService.getAllItems().stream().forEach(System.out::println);
+        itemService.getAll().stream().forEach(System.out::println);
         System.out.println("------------------");
         orderService.completeOrder(bucketService.getAllItems(bucket),newUser);
         orderService.getUserOrders(newUser).stream().forEach(System.out::println);

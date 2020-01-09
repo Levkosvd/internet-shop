@@ -7,6 +7,7 @@ import mate.academy.internetshop.model.Order;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.OrderService;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -47,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
     public Order completeOrder(List items, User user) {
         Order newOrder = new Order();
         newOrder.getItems().addAll(items);
-        user.getUserOrdersList().add(newOrder);
+        newOrder.setIdUser(user.getId());
         newOrder.getTotalPrice();
         orderDao.create(newOrder);
         return orderDao.get(newOrder.getId()).get();
@@ -55,6 +56,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getUserOrders(User user) {
-        return user.getUserOrdersList();
+        return orderDao.getAll().stream()
+                .filter(s -> s.getIdUser().equals(user.getId()))
+                .collect(Collectors.toList());
     }
 }

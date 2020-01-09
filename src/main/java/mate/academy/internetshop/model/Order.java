@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Order {
     private Long id;
+    private Long idUser;
     private List<Item> items;
     private double totalPrice;
 
@@ -41,5 +42,13 @@ public class Order {
     public String toString() {
         return "Order{" + "orderId=" + id + ", items="
                 + items + ", totalPrice=" + totalPrice + '}';
+    }
+
+    public Long getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
     }
 }

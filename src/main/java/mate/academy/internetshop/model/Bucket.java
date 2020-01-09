@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bucket {
-    private long id;
-    private Order order;
+    private Long id;
+    private Long idUser;
     private List<Item> bucketItems;
 
-    public Bucket() {
+    public Bucket(User user) {
+        idUser = user.getId();
         bucketItems = new ArrayList<>();
     }
 
@@ -28,9 +29,19 @@ public class Bucket {
         this.bucketItems = bucketItems;
     }
 
+    public Long getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
+    }
+
     @Override
     public String toString() {
-        return "Bucket{" + "bucketId=" + id
-                + ", order=" + order + ", bucketItems=" + bucketItems + '}';
+        return "Bucket{" + "id=" + id + ", idUser=" + idUser
+                + ", bucketItems=" + bucketItems + '}';
     }
+
+
 }
