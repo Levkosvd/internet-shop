@@ -4,15 +4,16 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GenericDao<T, I> {
-        void create(T entity);
 
-        Optional<T> get(I id);
+    void create(T entity);
 
-        void update(T entity);
+    Optional<T> get(I id);
 
-        boolean deleteById(I id);
+    void update(T entity);
 
-        boolean delete(T entity);
+    boolean deleteById(I id);
 
-        List<T> getAll();
+    boolean delete(T entity);
+
+    List<T> getAll();
 }
