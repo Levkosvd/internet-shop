@@ -42,6 +42,4 @@ public class Bucket {
         return "Bucket{" + "id=" + id + ", idUser=" + idUser
                 + ", bucketItems=" + bucketItems + '}';
     }
-
-
 }

@@ -1,13 +1,13 @@
 package mate.academy.internetshop.service.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.libr.Inject;
 import mate.academy.internetshop.libr.Service;
 import mate.academy.internetshop.model.Order;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.OrderService;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {

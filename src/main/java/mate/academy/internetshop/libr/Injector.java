@@ -1,7 +1,5 @@
 package mate.academy.internetshop.libr;
 
-import mate.academy.internetshop.dao.UserDao;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -9,6 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import mate.academy.internetshop.dao.UserDao;
 
 public class Injector {
     private static final String PROJECT_MAIN_PACKAGE = "mate.academy.internetshop";
