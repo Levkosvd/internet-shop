@@ -24,6 +24,5 @@ MAIN MENU
 <button>
     <a href="/internet_shop_war_exploded/getAllOrders">Show all orders of User</a>
 </button>
-
 </body>
 </html>
