@@ -24,7 +24,7 @@ public class UserDaoImpl implements UserDao {
                 .stream()
                 .filter(i -> i.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Can't find order with id - "
+                .orElseThrow(() -> new NoSuchElementException("Can't find user with id - "
                         + id)));
     }
 

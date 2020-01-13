@@ -25,7 +25,9 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public Bucket get(Long id) {
-        return bucketDao.get(id).get();
+        return bucketDao.get(id)
+                .orElseThrow(() -> new NoSuchElementException("Cant find "
+                        + "bucket by this Bucket ID!"));
     }
 
     @Override
@@ -68,7 +70,7 @@ public class BucketServiceImpl implements BucketService {
         return bucketDao.getAll().stream()
             .filter((bucket) -> bucket.getIdUser().equals(userId))
             .findFirst()
-            .orElseThrow(() -> new NoSuchElementException("Cant find bucket!"));
+            .orElseThrow(() -> new NoSuchElementException("Cant find bucket by this ID of User!"));
     }
 
     @Override
