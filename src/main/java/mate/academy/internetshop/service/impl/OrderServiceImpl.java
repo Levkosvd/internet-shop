@@ -6,13 +6,15 @@ import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.libr.Inject;
 import mate.academy.internetshop.libr.Service;
 import mate.academy.internetshop.model.Order;
-import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.OrderService;
+import mate.academy.internetshop.service.UserService;
 
 @Service
 public class OrderServiceImpl implements OrderService {
     @Inject
     private static OrderDao orderDao;
+    @Inject
+    private static UserService userService;
 
     @Override
     public void create(Order entity) {
@@ -45,19 +47,19 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order completeOrder(List items, User user) {
+    public Order completeOrder(List items, Long userId) {
         Order newOrder = new Order();
         newOrder.getItems().addAll(items);
-        newOrder.setIdUser(user.getId());
+        newOrder.setIdUser(userId);
         newOrder.getTotalPrice();
         orderDao.create(newOrder);
         return orderDao.get(newOrder.getId()).get();
     }
 
     @Override
-    public List<Order> getUserOrders(User user) {
+    public List<Order> getUserOrders(Long userId) {
         return orderDao.getAll().stream()
-                .filter(s -> s.getIdUser().equals(user.getId()))
+                .filter(s -> s.getIdUser().equals(userService.get(userId).getId()))
                 .collect(Collectors.toList());
     }
 }

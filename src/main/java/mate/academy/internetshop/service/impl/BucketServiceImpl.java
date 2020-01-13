@@ -1,7 +1,9 @@
 package mate.academy.internetshop.service.impl;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import mate.academy.internetshop.dao.BucketDao;
+import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.libr.Inject;
 import mate.academy.internetshop.libr.Service;
 import mate.academy.internetshop.model.Bucket;
@@ -12,6 +14,8 @@ import mate.academy.internetshop.service.BucketService;
 public class BucketServiceImpl implements BucketService {
     @Inject
     private static BucketDao bucketDao;
+    @Inject
+    private static ItemDao itemDao;
 
     @Override
     public void create(Bucket entity) {
@@ -49,13 +53,21 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public void deleteItem(Bucket bucket, Item item) {
-        bucket.getBucketItems().remove(item);
+    public void deleteItem(Bucket bucket, Long id) {
+        bucket.getBucketItems().remove(itemDao.get(id).get());
     }
 
     @Override
     public void clear(Bucket bucket) {
         bucket.getBucketItems().clear();
+    }
+
+    @Override
+    public Bucket getByUser(Long userId) {
+        return bucketDao.getAll().stream()
+            .filter((bucket) -> bucket.getIdUser().equals(userId))
+            .findFirst()
+            .orElseThrow(() -> new NoSuchElementException("Cant find bucket!"));
     }
 
     @Override

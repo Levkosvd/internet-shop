@@ -1,19 +1,12 @@
 package mate.academy.internetshop.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class User {
     private Long id;
-    private String name;
+    private String firstName;
+    private String surname;
+    private String login;
+    private String password;
     private double accountBalance;
-    private List<Order> userOrdersList;
-
-    public User(String name, double accountBalance) {
-        this.name = name;
-        this.accountBalance = accountBalance;
-        userOrdersList = new ArrayList<>();
-    }
 
     public Long getId() {
         return id;
@@ -23,12 +16,12 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public double getAccountBalance() {
@@ -39,17 +32,35 @@ public class User {
         this.accountBalance = balance;
     }
 
-    public List<Order> getUserOrdersList() {
-        return userOrdersList;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setUserOrdersList(List<Order> userOrders) {
-        this.userOrdersList = userOrders;
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", name='" + name + '\''
-                + ", accountBalance=" + accountBalance + ", userOrders=" + userOrdersList + '}';
+        return "User{" + "id=" + id + ", firstName='"
+            + firstName + '\'' + ", surname='" + surname + '\''
+            + ", login='" + login + '\'' + ", password='"
+            + password + '\'' + ", accountBalance=" + accountBalance + '}';
     }
 }

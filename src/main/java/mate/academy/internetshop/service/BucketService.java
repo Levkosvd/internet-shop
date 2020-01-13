@@ -8,9 +8,11 @@ public interface BucketService extends GenericService<Bucket, Long> {
 
     void addItem(Bucket bucket, Item item);
 
-    void deleteItem(Bucket bucket, Item item);
+    void deleteItem(Bucket bucket, Long id);
 
-    void clear(Bucket bucket); //remove all items from bucket
+    void clear(Bucket bucket);
+
+    Bucket getByUser(Long userId);
 
     List<Item> getAllItems(Bucket bucket);
 
