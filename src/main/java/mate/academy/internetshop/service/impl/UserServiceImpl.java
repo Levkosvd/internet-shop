@@ -1,6 +1,7 @@
 package mate.academy.internetshop.service.impl;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.libr.Inject;
 import mate.academy.internetshop.libr.Service;
@@ -19,7 +20,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User get(Long id) {
-        return userDao.get(id).get();
+        return userDao.get(id)
+                .orElseThrow(() -> new NoSuchElementException("Cant find "
+                + "user by this User ID!"));
     }
 
     @Override
