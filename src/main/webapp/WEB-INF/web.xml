@@ -119,6 +119,7 @@
         <servlet-name>login</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
+
     <filter>
         <filter-name>auth-filter</filter-name>
         <filter-class>mate.academy.internetshop.web.filter.AuthenticationFilter</filter-class>
@@ -127,9 +128,6 @@
         <filter-name>auth-filter</filter-name>
         <url-pattern>/servlet/*</url-pattern>
     </filter-mapping>
-
-
-
 
     <listener>
         <listener-class>mate.academy.internetshop.controller.InjectInit</listener-class>

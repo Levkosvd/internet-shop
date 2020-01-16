@@ -2,7 +2,6 @@ package mate.academy.internetshop.web.filter;
 
 import java.io.IOException;
 import java.util.Optional;
-import java.util.logging.Logger;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -15,9 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import mate.academy.internetshop.libr.Inject;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
+import org.apache.log4j.Logger;
+
 
 public class AuthenticationFilter implements Filter {
-    private static Logger log = Logger.getLogger(String.valueOf(AuthenticationFilter.class));
+    final static Logger logger = Logger.getLogger(AuthenticationFilter.class);
 
     @Inject
     private static UserService userService;
@@ -41,19 +42,17 @@ public class AuthenticationFilter implements Filter {
             if (cookie.getName().equals("MATE")) {
                 Optional<User> user = userService.findByToken(cookie.getValue());
                 if (user.isPresent()) {
-                    log.info("User" + user.get().getLogin() + " was authentificated");
+                    logger.info("User" + user.get().getLogin() + " was authenticated");
                     filterChain.doFilter(servletRequest,servletResponse);
                     return;
                 }
             }
         }
-        log.info("User was authentificated");
+        logger.info("Authentication failed");
         processUnAuthenticated(req,resp);
-
     }
 
-    private void processUnAuthenticated(HttpServletRequest req,
-                                        HttpServletResponse resp)
+    private void processUnAuthenticated(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
         resp.sendRedirect(req.getContextPath() + "/login");
     }

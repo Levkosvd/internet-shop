@@ -60,15 +60,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> findByLogin(String login, String password)
+    public Optional<User> findByLogin(String login)
             throws AuthenticationException {
-        Optional<User> user = Storage.users.stream()
+        return Storage.users.stream()
                 .filter(l -> l.getLogin().equals(login))
                 .findFirst();
-        if (user.isEmpty() || !user.get().getPassword().equals(password)) {
-            throw new AuthenticationException("Incorrect login or password");
-        }
-        return user;
     }
 
     @Override

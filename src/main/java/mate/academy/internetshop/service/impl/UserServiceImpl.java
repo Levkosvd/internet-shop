@@ -45,7 +45,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(String login, String password)
             throws AuthenticationException {
-        return userDao.findByLogin(login, password).get();
+        Optional<User> user = userDao.findByLogin(login);
+        if (user.isEmpty()) {
+            throw new AuthenticationException("User with that login not find");
+        } else if (!user.get().getPassword().equals(password)) {
+            throw new AuthenticationException("Incorrect password");
+        }
+        return user.get();
     }
 
     @Override
