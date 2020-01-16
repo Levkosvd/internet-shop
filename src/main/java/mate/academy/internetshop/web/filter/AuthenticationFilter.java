@@ -17,7 +17,7 @@ import mate.academy.internetshop.service.UserService;
 import org.apache.log4j.Logger;
 
 public class AuthenticationFilter implements Filter {
-    private static Logger logger = Logger.getLogger(AuthenticationFilter.class);
+    private final static Logger logger = Logger.getLogger(AuthenticationFilter.class);
     @Inject
     private static UserService userService;
 
