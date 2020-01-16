@@ -29,6 +29,6 @@
     </c:forEach>
 </table>
 <br>
-<a href="/internet_shop_war_exploded/index">Back to Main Menu </a>
+<a href="/internet_shop_war_exploded/servlet/index">Back to Main Menu </a>
 </body>
 </html>

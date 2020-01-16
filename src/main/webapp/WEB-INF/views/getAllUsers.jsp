@@ -38,7 +38,7 @@
                 <c:out value="${user.accountBalance}" />
             </td>
             <td>
-                <a href="${pageContext.request.contextPath}/deleteUser?id=${user.id}">DELETE</a>
+                <a href="${pageContext.request.contextPath}/servlet/deleteUser?id=${user.id}">DELETE</a>
             </td>
         </tr>
     </c:forEach>
@@ -46,6 +46,6 @@
 <br>
 <a href="/internet_shop_war_exploded/registration">Register new User </a>
 <br>
-<a href="/internet_shop_war_exploded/index">Back to Main Menu </a>
+<a href="/internet_shop_war_exploded/servlet/index">Back to Main Menu </a>
 </body>
 </html>

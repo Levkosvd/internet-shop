@@ -18,6 +18,6 @@ public class DeleteItemFromBucketController extends HttpServlet {
             throws ServletException, IOException {
         bucketService.deleteItem(bucketService.getByUser(USER_ID),
                 Long.valueOf(req.getParameter("itemId")));
-        resp.sendRedirect(req.getContextPath() + "/bucket");
+        resp.sendRedirect(req.getContextPath() + "/servlet/bucket");
     }
 }

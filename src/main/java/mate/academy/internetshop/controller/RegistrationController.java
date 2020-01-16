@@ -5,6 +5,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import mate.academy.internetshop.libr.Inject;
 import mate.academy.internetshop.model.Bucket;
 import mate.academy.internetshop.model.User;
@@ -34,7 +35,9 @@ public class RegistrationController extends HttpServlet {
         newUser.setSurname(req.getParameter("user_surname"));
         newUser.setAccountBalance(Double.parseDouble(req.getParameter("balance")));
         userService.create(newUser);
+        HttpSession httpSession = req.getSession(true);
+        httpSession.setAttribute("userId",newUser.getId());
         bucketService.create(new Bucket(newUser.getId()));
-        resp.sendRedirect(req.getContextPath() + "/getAllUsers");
+        resp.sendRedirect(req.getContextPath() + "/login");
     }
 }

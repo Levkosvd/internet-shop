@@ -2,7 +2,9 @@ package mate.academy.internetshop.service.impl;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import mate.academy.internetshop.dao.UserDao;
+import mate.academy.internetshop.exeptions.AuthenticationException;
 import mate.academy.internetshop.libr.Inject;
 import mate.academy.internetshop.libr.Service;
 import mate.academy.internetshop.model.User;
@@ -38,6 +40,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean delete(User entity) {
         return userDao.delete(entity);
+    }
+
+    @Override
+    public User login(String login, String password)
+            throws AuthenticationException {
+        return userDao.findByLogin(login, password).get();
+    }
+
+    @Override
+    public Optional<User> findByToken(String token) {
+        return userDao.findByToken(token);
+
     }
 
     @Override

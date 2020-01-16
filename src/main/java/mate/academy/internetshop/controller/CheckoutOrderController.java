@@ -21,6 +21,6 @@ public class CheckoutOrderController extends HttpServlet {
             throws ServletException, IOException {
         orderService.completeOrder(bucketService.getByUser(USER_ID)
                 .getBucketItems(),USER_ID);
-        resp.sendRedirect(req.getContextPath() + "/getAllOrders");
+        resp.sendRedirect(req.getContextPath() + "/servlet/getAllOrders");
     }
 }
