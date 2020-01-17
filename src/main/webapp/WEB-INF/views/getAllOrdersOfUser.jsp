@@ -23,7 +23,7 @@
                 <c:out value="${order.items}" />
             </td>
             <td>
-                <a href="${pageContext.request.contextPath}/deleteOrders?id=${order.id}">DELETE</a>
+                <a href="${pageContext.request.contextPath}/servlet/deleteOrders?id=${order.id}">DELETE</a>
             </td>
         </tr>
     </c:forEach>

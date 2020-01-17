@@ -9,14 +9,14 @@ import mate.academy.internetshop.libr.Inject;
 import mate.academy.internetshop.service.BucketService;
 
 public class DeleteItemFromBucketController extends HttpServlet {
-    private static final Long USER_ID = 1L;
     @Inject
     private static BucketService bucketService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        bucketService.deleteItem(bucketService.getByUser(USER_ID),
+        bucketService.deleteItem(bucketService
+                        .getByUser((Long) req.getSession().getAttribute("userId")),
                 Long.valueOf(req.getParameter("itemId")));
         resp.sendRedirect(req.getContextPath() + "/servlet/bucket");
     }

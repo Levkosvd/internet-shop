@@ -28,8 +28,10 @@ public class LoginController extends HttpServlet {
         try {
             User user = userService.login(req.getParameter("login"),
                     req.getParameter("psw"));
+
             HttpSession httpSession = req.getSession(true);
             httpSession.setAttribute("userId",user.getId());
+
             Cookie cookie = new Cookie("MATE",user.getToken());
             resp.addCookie(cookie);
             resp.sendRedirect(req.getContextPath() + "/servlet/index");

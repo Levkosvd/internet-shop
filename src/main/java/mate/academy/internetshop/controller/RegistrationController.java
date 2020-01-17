@@ -35,8 +35,10 @@ public class RegistrationController extends HttpServlet {
         newUser.setSurname(req.getParameter("user_surname"));
         newUser.setAccountBalance(Double.parseDouble(req.getParameter("balance")));
         userService.create(newUser);
+
         HttpSession httpSession = req.getSession(true);
         httpSession.setAttribute("userId",newUser.getId());
+
         bucketService.create(new Bucket(newUser.getId()));
         resp.sendRedirect(req.getContextPath() + "/login");
     }
