@@ -3,8 +3,10 @@ package mate.academy.internetshop.dao.impl;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.UUID;
 import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.data.Storage;
+import mate.academy.internetshop.exeptions.AuthenticationException;
 import mate.academy.internetshop.libr.Dao;
 import mate.academy.internetshop.model.User;
 
@@ -15,6 +17,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void create(User user) {
         user.setId(++idGenerator);
+        user.setToken(UUID.randomUUID().toString());
         Storage.users.add(user);
     }
 
@@ -54,5 +57,20 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getAll() {
         return Storage.users;
+    }
+
+    @Override
+    public Optional<User> findByLogin(String login)
+            throws AuthenticationException {
+        return Storage.users.stream()
+                .filter(l -> l.getLogin().equals(login))
+                .findFirst();
+    }
+
+    @Override
+    public Optional<User> findByToken(String token) {
+        return  Storage.users.stream()
+                .filter(u -> u.getToken().equals(token))
+                .findFirst();
     }
 }
