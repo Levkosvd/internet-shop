@@ -15,8 +15,7 @@ public class DeleteItemFromListController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
         itemService.deleteById(Long.valueOf(req.getParameter("id")));
-        resp.sendRedirect(req.getContextPath() + "/servlet/deleteItemFromList");
+        resp.sendRedirect(req.getContextPath() + "/servlet/getAllItems");
     }
 }
