@@ -40,7 +40,7 @@ public class InjectDataController extends HttpServlet {
         User user2 = new User();
         user2.setFirstName("Joe");
         user2.setSurname("Biden");
-        user2.setLogin("killer");
+        user2.setLogin("biden");
         user2.setAccountBalance(12_000);
         user2.setPassword("1");
         user2.addRole(Role.of("USER"));
