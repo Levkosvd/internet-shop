@@ -24,5 +24,8 @@ MAIN MENU
 <button>
     <a href="/internet_shop_war_exploded/servlet/getAllOrders">Show all orders of User</a>
 </button>
+<button>
+    <a href="/internet_shop_war_exploded/servlet/logout">Logout</a>
+</button>
 </body>
 </html>
