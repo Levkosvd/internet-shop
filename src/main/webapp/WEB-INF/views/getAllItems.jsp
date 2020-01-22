@@ -14,6 +14,8 @@
         <th>Name</th>
         <th>Price</th>
         <th>ADD TO BUCKET</th>
+        <th>DELETE ITEM</th>
+
     </tr>
     <c:forEach var = "item" items="${itemList}">
         <tr>
@@ -29,6 +31,10 @@
             <td>
                 <a href="${pageContext.request.contextPath}/servlet/addItemToBucket?itemId=${item.id}">ADD</a>
             </td>
+            <td>
+                <a href="${pageContext.request.contextPath}/servlet/deleteItemFromList?id=${item.id}">DELETE</a>
+            </td>
+
         </tr>
     </c:forEach>
 </table>

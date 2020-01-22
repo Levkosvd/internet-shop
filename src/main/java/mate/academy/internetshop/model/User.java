@@ -1,5 +1,8 @@
 package mate.academy.internetshop.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class User {
     private Long id;
     private String firstName;
@@ -7,6 +10,7 @@ public class User {
     private String login;
     private String password;
     private String token;
+    private Set<Role> roles = new HashSet<>();
     private double accountBalance;
 
     public Long getId() {
@@ -65,11 +69,26 @@ public class User {
         this.token = token;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        roles.add(role);
+    }
+
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", firstName='"
-            + firstName + '\'' + ", surname='" + surname + '\''
-            + ", login='" + login + '\'' + ", password='"
-            + password + '\'' + ", accountBalance=" + accountBalance + '}';
+        return "User{" + "id=" + id
+                + ", firstName='" + firstName + '\''
+                + ", surname='" + surname + '\''
+                + ", login='" + login + '\''
+                + ", role ='" + roles.toString() + '\''
+                + ", password='" + password + '\''
+                + ", accountBalance=" + accountBalance + '}';
     }
 }

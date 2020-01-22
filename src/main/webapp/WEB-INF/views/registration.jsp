@@ -32,7 +32,7 @@
     </div>
 
     <div class="container signin">
-        <p>Already have an account? <a href="#">Sign in</a>.</p>
+        <p>Already have an account? <a href="/internet_shop_war_exploded/login">Sign in</a>.</p>
     </div>
 </form>
 <br>
