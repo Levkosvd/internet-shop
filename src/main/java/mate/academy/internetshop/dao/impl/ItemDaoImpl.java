@@ -5,10 +5,8 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.data.Storage;
-import mate.academy.internetshop.libr.Dao;
 import mate.academy.internetshop.model.Item;
 
-@Dao
 public class ItemDaoImpl implements ItemDao {
     private static long idGenerator = 0L;
 
