@@ -41,11 +41,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public boolean delete(Order entity) {
-        return orderDao.delete(entity);
-    }
-
-    @Override
     public List<Order> getAll() {
         return orderDao.getAll();
     }

@@ -47,12 +47,6 @@ public class BucketDaoImpl implements BucketDao {
     }
 
     @Override
-    public boolean delete(Bucket item) {
-
-        return Storage.buckets.remove(item);
-    }
-
-    @Override
     public List<Bucket> getAll() {
         return Storage.buckets;
     }

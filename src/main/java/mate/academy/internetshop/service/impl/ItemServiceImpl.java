@@ -36,11 +36,6 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public boolean delete(Item entity) {
-        return itemDao.delete(entity);
-    }
-
-    @Override
     public List<Item> getAll() {
         return itemDao.getAll();
     }

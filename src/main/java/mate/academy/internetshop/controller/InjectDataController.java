@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import mate.academy.internetshop.libr.Inject;
 import mate.academy.internetshop.model.Bucket;
-import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.BucketService;
@@ -47,8 +46,6 @@ public class InjectDataController extends HttpServlet {
         userService.create(user2);
         bucketService.create(new Bucket(user2.getId()));
 
-        itemService.create(new Item("SamsungA7", 4500.0));
-        itemService.create(new Item("AsusX75", 11000.0));
         resp.sendRedirect(req.getContextPath() + "/login");
     }
 }

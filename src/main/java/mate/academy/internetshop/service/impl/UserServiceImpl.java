@@ -38,11 +38,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean delete(User entity) {
-        return userDao.delete(entity);
-    }
-
-    @Override
     public User login(String login, String password)
             throws AuthenticationException {
         Optional<User> user = userDao.findByLogin(login);
