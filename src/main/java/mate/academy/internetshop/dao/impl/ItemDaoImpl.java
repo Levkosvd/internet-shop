@@ -48,11 +48,6 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public boolean delete(Item item) {
-        return Storage.items.remove(item);
-    }
-
-    @Override
     public List<Item> getAll() {
         return Storage.items;
     }

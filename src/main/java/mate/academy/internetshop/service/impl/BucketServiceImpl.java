@@ -41,11 +41,6 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public boolean delete(Bucket entity) {
-        return bucketDao.delete(entity);
-    }
-
-    @Override
     public List<Bucket> getAll() {
         return bucketDao.getAll();
     }

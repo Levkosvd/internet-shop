@@ -16,8 +16,7 @@ import org.apache.log4j.Logger;
 @Dao
 public class ItemDaoJdbcImpl extends AbstractDao<Item> implements ItemDao {
     private static Logger logger = Logger.getLogger(ItemDaoJdbcImpl.class);
-    private static String DB_TABLE_NAME = "internet_shop.items";
-    private static Statement statement = null;
+    private static final String DB_TABLE_NAME = "internet_shop.items";
 
     public ItemDaoJdbcImpl(Connection connection) {
         super(connection);
@@ -25,6 +24,7 @@ public class ItemDaoJdbcImpl extends AbstractDao<Item> implements ItemDao {
 
     @Override
     public void create(Item entity) {
+        Statement statement = null;
         String query = String.format(Locale.ROOT,
                 "INSERT INTO %s(name, price) VALUES ('%s', %.4f);",
                 DB_TABLE_NAME, entity.getName(), entity.getPrice());
@@ -34,7 +34,7 @@ public class ItemDaoJdbcImpl extends AbstractDao<Item> implements ItemDao {
                 logger.info("Success add");
             }
         } catch (SQLException e) {
-            logger.warn("Can't find item by id - " + entity.getId());
+            logger.warn("Can't add item by id - " + entity.getId(), e);
         } finally {
             if (statement != null) {
                 try {
@@ -49,22 +49,19 @@ public class ItemDaoJdbcImpl extends AbstractDao<Item> implements ItemDao {
 
     @Override
     public Optional<Item> get(Long id) {
+        Statement statement = null;
         String query = String.format("SELECT * FROM %s WHERE item_id = %d;", DB_TABLE_NAME, id);
         try {
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
-
-                resultSet.getString("name");
-                resultSet.getDouble("price");
-
                 Item getItem = new Item(resultSet.getString("name"),
                         resultSet.getDouble("price"));
                 getItem.setId(resultSet.getLong("item_id"));
                 return Optional.of(getItem);
             }
         } catch (SQLException e) {
-            logger.warn("Can't find item by id - " + id);
+            logger.warn("Can't find item by id - " + id, e);
         } finally {
             if (statement != null) {
                 try {
@@ -79,6 +76,7 @@ public class ItemDaoJdbcImpl extends AbstractDao<Item> implements ItemDao {
 
     @Override
     public void update(Item entity) {
+        Statement statement = null;
         String query = String.format(Locale.ROOT,
                 "UPDATE %s SET name = %s, price = %.4f WHERE item_id = %d;",
                 DB_TABLE_NAME, entity.getName(),entity.getPrice(), entity.getId());
@@ -88,7 +86,7 @@ public class ItemDaoJdbcImpl extends AbstractDao<Item> implements ItemDao {
                 logger.info("Success update");
             }
         } catch (SQLException e) {
-            logger.warn("Can't find item by id - " + entity.getId());
+            logger.warn("Can't update item by id - " + entity.getId(), e);
         } finally {
             if (statement != null) {
                 try {
@@ -102,6 +100,7 @@ public class ItemDaoJdbcImpl extends AbstractDao<Item> implements ItemDao {
 
     @Override
     public boolean deleteById(Long id) {
+        Statement statement = null;
         String query = String.format("DELETE FROM %s WHERE item_id = %d;", DB_TABLE_NAME, id);
         try {
             statement = connection.createStatement();
@@ -110,7 +109,7 @@ public class ItemDaoJdbcImpl extends AbstractDao<Item> implements ItemDao {
                 return true;
             }
         } catch (SQLException e) {
-            logger.warn("Can't find item by id - " + id);
+            logger.warn("Can't delete item by id - " + id, e);
         } finally {
             if (statement != null) {
                 try {
@@ -124,12 +123,8 @@ public class ItemDaoJdbcImpl extends AbstractDao<Item> implements ItemDao {
     }
 
     @Override
-    public boolean delete(Item entity) {
-        return false;
-    }
-
-    @Override
     public List<Item> getAll() {
+        Statement statement = null;
         String query = String.format("SELECT * FROM %s;", DB_TABLE_NAME);
         List<Item> itemList = new ArrayList<>();
         try {
@@ -146,7 +141,7 @@ public class ItemDaoJdbcImpl extends AbstractDao<Item> implements ItemDao {
                 itemList.add(getItem);
             }
         } catch (SQLException e) {
-            logger.warn("SQL error ");
+            logger.warn("Can't do action", e);
         } finally {
             if (statement != null) {
                 try {
