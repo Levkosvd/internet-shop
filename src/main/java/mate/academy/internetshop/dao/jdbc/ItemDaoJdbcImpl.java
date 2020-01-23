@@ -131,10 +131,6 @@ public class ItemDaoJdbcImpl extends AbstractDao<Item> implements ItemDao {
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
-
-                resultSet.getString("name");
-                resultSet.getDouble("price");
-
                 Item getItem = new Item(resultSet.getString("name"),
                         resultSet.getDouble("price"));
                 getItem.setId(resultSet.getLong("item_id"));
