@@ -18,7 +18,6 @@ public class LogoutController extends HttpServlet {
         bucketService.deleteById(bucketService.getByUser((Long) req.getSession().getAttribute("userId")).getId());
         req.getSession(false).invalidate();
 
-
         for (Cookie cookie : req.getCookies()) {
             if (cookie.getName().equals("MATE")) {
                 cookie.setMaxAge(0);
