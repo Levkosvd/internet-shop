@@ -9,6 +9,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import mate.academy.internetshop.exeptions.DataProcessingException;
 import mate.academy.internetshop.libr.Inject;
 import mate.academy.internetshop.service.UserService;
 import org.apache.log4j.Logger;
@@ -30,8 +31,12 @@ public class AuthenticationFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         if (req.getSession() != null && req.getSession().getAttribute("userId") != null) {
-            logger.info("User " + userService.get((Long) req.getSession()
-                    .getAttribute("userId")) + " was authenticated");
+            try {
+                logger.info("User " + userService.get((Long) req.getSession()
+                        .getAttribute("userId")) + " was authenticated");
+            } catch (DataProcessingException e) {
+                req.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(req, resp);
+            }
             filterChain.doFilter(servletRequest,servletResponse);
             return;
         }

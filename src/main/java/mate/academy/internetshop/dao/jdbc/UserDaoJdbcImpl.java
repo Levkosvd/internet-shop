@@ -6,18 +6,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import mate.academy.internetshop.dao.RoleDao;
 import mate.academy.internetshop.dao.UserDao;
-import mate.academy.internetshop.exeptions.AuthenticationException;
+import mate.academy.internetshop.exeptions.DataProcessingException;
 import mate.academy.internetshop.libr.Dao;
 import mate.academy.internetshop.libr.Inject;
 import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import org.apache.log4j.Logger;
+
 @Dao
 public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
     private static Logger logger = Logger.getLogger(ItemDaoJdbcImpl.class);
@@ -30,68 +32,60 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
     }
 
     @Override
-    public void create(User entity) {
-        PreparedStatement preparedStatement = null;
+    public void create(User entity) throws DataProcessingException {
         Long userId = null;
-        ResultSet resultSet = null;
-        String insert = "INSERT INTO internet_shop.users(login, password, account_balance, token, first_name, surname) "
+        String insert = "INSERT INTO internet_shop.users(login, password," +
+                " account_balance, token, first_name, surname) "
                 + "VALUES (?,?,?,?,?,?);";
-        try {
-            preparedStatement = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
+        try (PreparedStatement preparedStatement = connection
+                .prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
+             ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
             entity.setToken(UUID.randomUUID().toString());
             setParameters(entity, preparedStatement);
-            resultSet = preparedStatement.getGeneratedKeys();
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 userId = resultSet.getLong(1);
             }
-            String insertRoles = "INSERT INTO internet_shop.role_user(user_id, role_id) VALUES (?, ?)";
+            String insertRoles = "INSERT INTO "
+                    + "internet_shop.role_user(user_id, role_id) VALUES (?, ?)";
             rolesForeach(insertRoles,entity,userId,connection);
         } catch (SQLException e) {
-            logger.warn("Can't add item by id - " + entity.getId(), e);
-        } finally {
-           closeResources(preparedStatement,resultSet);
+            throw new DataProcessingException("Can't add user", e);
         }
     }
 
     @Override
-    public Optional<User> get(Long id) {
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+    public Optional<User> get(Long id)
+            throws DataProcessingException {
         String query = "SELECT * FROM internet_shop.users WHERE user_id = ?;";
-        try {
-            preparedStatement = connection.prepareStatement(query);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, id);
-            resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()) {
-                return Optional.of(findUser(resultSet));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return Optional.of(setUser(resultSet));
             }
         } catch (SQLException e) {
-            logger.warn("Can't find user by id - " + id, e);
-        } finally {
-            closeResources(preparedStatement, resultSet);
+            throw new DataProcessingException("Can't get  user by id" + id, e);
         }
         return Optional.empty();
     }
 
     @Override
-    public void update(User entity) {
-        PreparedStatement preparedStatement = null;
+    public void update(User entity)
+            throws DataProcessingException {
         String query = "UPDATE internet_shop.users SET "
                 + "login = ?, password = ?, account_balance = ?, "
                 + "token = ?, first_name = ?, surname = ? WHERE user_id = ?;";
-        try {
-            preparedStatement = connection.prepareStatement(query);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query);) {
             preparedStatement.setLong(7, entity.getId());
             setParameters(entity, preparedStatement);
         } catch (SQLException e) {
-            logger.warn("Can't update item by id - " + entity.getId(), e);
-        } finally {
-            closeResources(preparedStatement);
+            throw new DataProcessingException("Can't update user", e);
         }
     }
 
     @Override
-    public boolean deleteById(Long id) {
+    public boolean deleteById(Long id)
+            throws DataProcessingException {
         PreparedStatement preparedStatement = null;
         String query = "DELETE FROM internet_shop.users WHERE user_id = ?;";
         try {
@@ -102,91 +96,77 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
                 return true;
             }
         } catch (SQLException e) {
-            logger.warn("Can't delete item by id - " + id, e);
-        } closeResources(preparedStatement);
+            throw new DataProcessingException("Can't delete user by id", e);
+        }
         return false;
     }
 
     @Override
-    public List<User> getAll() {
-        PreparedStatement showPrepStatement = null;
-        ResultSet resultSet = null;
+    public List<User> getAll()
+            throws DataProcessingException {
         String query = "SELECT * FROM internet_shop.users;";
         List<User> userList = new ArrayList<>();
-        try{
-            showPrepStatement = connection.prepareStatement(query);
-            resultSet = showPrepStatement.executeQuery();
+        try (PreparedStatement showPrepStatement = connection.prepareStatement(query);
+               ResultSet resultSet = showPrepStatement.executeQuery()) {
             while (resultSet.next()) {
-                userList.add(findUser(resultSet));
+                userList.add(setUser(resultSet));
             }
         } catch (SQLException e) {
-            logger.warn("Can't do action", e);
-        } finally {
-            closeResources(showPrepStatement,resultSet);
+            throw new DataProcessingException("Can't get all user", e);
         }
         return userList;
     }
 
     @Override
-    public Optional<User> findByLogin(String login) throws AuthenticationException {
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+    public Optional<User> findByLogin(String login)
+            throws DataProcessingException {
         String query = "SELECT * FROM internet_shop.users WHERE login = ?;";
-        try {
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, login);
-            resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()) {
-                return Optional.of(findUser(resultSet));
-            }
-        } catch (SQLException e) {
-            logger.warn("Can't find item by login - " + login, e);
-        } finally {
-            closeResources(preparedStatement, resultSet);
-        }
-        return Optional.empty();
+        return setUserWithParameters(query,login);
     }
 
     @Override
-    public Optional<User> findByToken(String token) {
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+    public Optional<User> findByToken(String token)
+            throws DataProcessingException {
         String query = "SELECT * FROM internet_shop.items WHERE token = ?;";
-        try {
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, token);
-            resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()) {
-                return Optional.of(findUser(resultSet));
+        return setUserWithParameters(query, token);
+    }
+
+    private Optional<User> setUserWithParameters(String query, String parameter)
+            throws DataProcessingException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, parameter);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return Optional.of(setUser(resultSet));
             }
         } catch (SQLException e) {
-            logger.warn("Can't find item by token - " + token, e);
-        } finally {
-            closeResources(preparedStatement, resultSet);
+            throw new DataProcessingException("Can't find user by token", e);
         }
         return Optional.empty();
     }
 
-    private static void rolesForeach(String query, User user, Long userId, Connection connection) {
+    private static void rolesForeach(String query, User user, Long userId, Connection connection)
+            throws DataProcessingException {
         PreparedStatement preparedStatement = null;
         Set<Role> roles = roleDao.getAllRoles();
-        for(Role roleOfUser : user.getRoles()) {
+        for (Role roleOfUser : user.getRoles()) {
             for (Role roleOfDatabase: roles) {
-                if(roleOfUser.getRoleName().equals(roleOfDatabase.getRoleName())) {
+                if (roleOfUser.getRoleName().equals(roleOfDatabase.getRoleName())) {
                     try {
                         preparedStatement = connection.prepareStatement(query);
                         preparedStatement.setLong(1, userId);
                         preparedStatement.setLong(2, roleOfDatabase.getId());
                         preparedStatement.execute();
                     } catch (SQLException e) {
-                        e.printStackTrace();
+                        throw new DataProcessingException("Error search roles", e);
                     }
                 }
             }
         }
     }
 
-    private static User findUser(ResultSet resultSet) {
+    private  User setUser(ResultSet resultSet)
+            throws DataProcessingException {
         try {
             User getUser = new User();
             getUser.setLogin(resultSet.getString("login"));
@@ -196,14 +176,16 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
             getUser.setSurname(resultSet.getString("surname"));
             getUser.setAccountBalance(resultSet.getDouble("account_balance"));
             getUser.setId(resultSet.getLong("user_id"));
-            getUser.setRoles(roleDao.getAllRolesForUser(getUser.getId()));
+            getUser.setRoles(getAllRolesForUser(getUser.getId()));
             return getUser;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DataProcessingException("Can't find user", e);
         }
 
     }
-    private static void setParameters(User entity, PreparedStatement preparedStatement) {
+
+    private static void setParameters(User entity, PreparedStatement preparedStatement)
+            throws DataProcessingException {
         try {
             preparedStatement.setString(1, entity.getLogin());
             preparedStatement.setString(2, entity.getPassword());
@@ -213,7 +195,29 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
             preparedStatement.setString(6, entity.getSurname());
             preparedStatement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Can't set parameters", e);
+        }
+    }
+
+    @Override
+    public Set<Role> getAllRolesForUser(Long userId) throws DataProcessingException {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Set<Role> allRoles = new HashSet<>();
+        String getAllRoles = "SELECT * FROM role_user "
+                + "JOIN roles ON role_user.role_id = roles.role_id WHERE user_id = ? ;";
+        try {
+            preparedStatement = connection.prepareStatement(getAllRoles);
+            preparedStatement.setLong(1, userId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Role role = Role.of(resultSet.getString("role_name"));
+                role.setId(resultSet.getLong("role_id"));
+                allRoles.add(role);
+            }
+            return allRoles;
+        } catch (SQLException e) {
+            throw new DataProcessingException("Can't set parameters", e);
         }
     }
 }

@@ -10,11 +10,13 @@ import java.util.List;
 import java.util.Optional;
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.dao.OrderDao;
+import mate.academy.internetshop.exeptions.DataProcessingException;
 import mate.academy.internetshop.libr.Dao;
 import mate.academy.internetshop.libr.Inject;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.model.Order;
 import org.apache.log4j.Logger;
+
 @Dao
 public class OrderDaoJdbcImpl extends AbstractDao<Order> implements OrderDao {
     private static Logger logger = Logger.getLogger(ItemDaoJdbcImpl.class);
@@ -29,12 +31,11 @@ public class OrderDaoJdbcImpl extends AbstractDao<Order> implements OrderDao {
     public void create(Order entity) {
         String query = "INSERT INTO internet_shop.orders(user_id) VALUES (?);";
         try (PreparedStatement createPrepStatement = connection
-                .prepareStatement(query, Statement.RETURN_GENERATED_KEYS);) {
-
+                .prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             createPrepStatement.setLong(1, entity.getIdUser());
             createPrepStatement.executeUpdate();
             ResultSet resultSet = createPrepStatement.getGeneratedKeys();
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 entity.setId(resultSet.getLong(1));
             }
             addItemToDb(entity);
@@ -44,14 +45,13 @@ public class OrderDaoJdbcImpl extends AbstractDao<Order> implements OrderDao {
     }
 
     @Override
-    public Optional<Order> get(Long id) {
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+    public Optional<Order> get(Long id)
+            throws DataProcessingException {
+
         String query = "SELECT * FROM internet_shop.orders WHERE order_id = ?;";
-        try {
-            preparedStatement = connection.prepareStatement(query);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, id);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Order getBucket = new Order();
                 getBucket.setIdUser(resultSet.getLong("user_id"));
@@ -60,9 +60,7 @@ public class OrderDaoJdbcImpl extends AbstractDao<Order> implements OrderDao {
                 return Optional.of(getBucket);
             }
         } catch (SQLException e) {
-            logger.warn("Can't find bucket by id - " + id, e);
-        } finally {
-            closeResources(preparedStatement, resultSet);
+            throw  new DataProcessingException("Can't get all items from Order", e);
         }
         return Optional.empty();
     }
@@ -70,7 +68,7 @@ public class OrderDaoJdbcImpl extends AbstractDao<Order> implements OrderDao {
     @Override
     public void update(Order entity) {
         String remove = "DELETE FROM internet_shop.order_item WHERE order_id = ?;";
-        try(PreparedStatement preparedStatement = connection.prepareStatement(remove)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(remove)) {
             preparedStatement.setLong(1, entity.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -95,14 +93,12 @@ public class OrderDaoJdbcImpl extends AbstractDao<Order> implements OrderDao {
     }
 
     @Override
-    public List<Order> getAll() {
-        PreparedStatement showPrepStatement = null;
-        ResultSet resultSet = null;
+    public List<Order> getAll()
+            throws DataProcessingException {
         String query = "SELECT * FROM internet_shop.orders;";
         List<Order> ordersList = new ArrayList<>();
-        try{
-            showPrepStatement = connection.prepareStatement(query);
-            resultSet = showPrepStatement.executeQuery();
+        try (PreparedStatement showPrepStatement = connection.prepareStatement(query);
+            ResultSet resultSet = showPrepStatement.executeQuery()) {
             while (resultSet.next()) {
                 Order order = new Order();
                 order.setIdUser(resultSet.getLong("user_id"));
@@ -111,17 +107,16 @@ public class OrderDaoJdbcImpl extends AbstractDao<Order> implements OrderDao {
                 ordersList.add(order);
             }
         } catch (SQLException e) {
-            logger.warn("Can't do action", e);
-        } finally {
-            closeResources(showPrepStatement, resultSet);
+            throw  new DataProcessingException("Can't get all items from Order", e);
         }
         return ordersList;
     }
+
     private void addItemToDb(Order order) {
         List<Item> items = order.getItems();
         String query = "INSERT INTO internet_shop.order_item(order_id, item_id) VALUES (?, ?);";
         try {
-            for(Item item : items) {
+            for (Item item : items) {
                 PreparedStatement statement = connection.prepareStatement(query);
                 statement.setLong(1, order.getId());
                 statement.setLong(2, item.getId());
@@ -132,7 +127,8 @@ public class OrderDaoJdbcImpl extends AbstractDao<Order> implements OrderDao {
         }
     }
 
-    private List<Item> getAllItemsFromOrder(Long orderId) {
+    private List<Item> getAllItemsFromOrder(Long orderId)
+            throws DataProcessingException {
         List<Item> items = new ArrayList<>();
         String query = "SELECT * FROM internet_shop.order_item "
                 + "JOIN items ON items.item_id = order_item.item_id WHERE order_id = ?;";
@@ -140,10 +136,13 @@ public class OrderDaoJdbcImpl extends AbstractDao<Order> implements OrderDao {
             statement.setLong(1, orderId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                items.add(itemDao.get(resultSet.getLong("item_id")).get());
+                Item getItem = new Item(resultSet.getString("name"),
+                        resultSet.getDouble("price"));
+                getItem.setId(resultSet.getLong("item_id"));
+                items.add(getItem);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            throw  new DataProcessingException("Can't get all items from Order", ex);
         }
         return items;
     }

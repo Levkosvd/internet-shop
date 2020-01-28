@@ -7,8 +7,6 @@ public interface RoleDao {
 
     Role getRole(Long id);
 
-    Set<Role> getAllRolesForUser(Long userId);
-
     Set<Role> getAllRoles();
 
 
