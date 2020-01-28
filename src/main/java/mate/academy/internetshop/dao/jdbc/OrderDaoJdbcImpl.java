@@ -98,7 +98,7 @@ public class OrderDaoJdbcImpl extends AbstractDao<Order> implements OrderDao {
         String query = "SELECT * FROM internet_shop.orders;";
         List<Order> ordersList = new ArrayList<>();
         try (PreparedStatement showPrepStatement = connection.prepareStatement(query);
-            ResultSet resultSet = showPrepStatement.executeQuery()) {
+                ResultSet resultSet = showPrepStatement.executeQuery()) {
             while (resultSet.next()) {
                 Order order = new Order();
                 order.setIdUser(resultSet.getLong("user_id"));

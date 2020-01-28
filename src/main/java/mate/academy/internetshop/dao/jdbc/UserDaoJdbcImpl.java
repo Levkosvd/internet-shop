@@ -34,12 +34,12 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
     @Override
     public void create(User entity) throws DataProcessingException {
         Long userId = null;
-        String insert = "INSERT INTO internet_shop.users(login, password," +
-                " account_balance, token, first_name, surname) "
+        String insert = "INSERT INTO internet_shop.users(login, password,"
+                + " account_balance, token, first_name, surname) "
                 + "VALUES (?,?,?,?,?,?);";
         try (PreparedStatement preparedStatement = connection
                 .prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
-             ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
             entity.setToken(UUID.randomUUID().toString());
             setParameters(entity, preparedStatement);
             while (resultSet.next()) {
@@ -107,7 +107,7 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
         String query = "SELECT * FROM internet_shop.users;";
         List<User> userList = new ArrayList<>();
         try (PreparedStatement showPrepStatement = connection.prepareStatement(query);
-               ResultSet resultSet = showPrepStatement.executeQuery()) {
+                ResultSet resultSet = showPrepStatement.executeQuery()) {
             while (resultSet.next()) {
                 userList.add(setUser(resultSet));
             }

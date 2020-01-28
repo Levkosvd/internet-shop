@@ -13,11 +13,13 @@ import mate.academy.internetshop.service.BucketService;
 public class LogoutController extends HttpServlet {
     @Inject
     private static BucketService bucketService;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
-            bucketService.deleteById(bucketService.getByUser((Long) req.getSession().getAttribute("userId")).getId());
+            bucketService.deleteById(bucketService.getByUser((Long) req.getSession()
+                    .getAttribute("userId")).getId());
         } catch (DataProcessingException e) {
             req.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(req, resp);
         }

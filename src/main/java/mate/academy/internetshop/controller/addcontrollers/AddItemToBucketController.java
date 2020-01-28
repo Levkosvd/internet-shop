@@ -27,7 +27,8 @@ public class AddItemToBucketController extends HttpServlet {
             req.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(req, resp);
         }
         try {
-            bucketService.addItem(bucket, itemService.get(Long.valueOf(req.getParameter("itemId"))));
+            bucketService.addItem(bucket,
+                    itemService.get(Long.valueOf(req.getParameter("itemId"))));
         } catch (DataProcessingException e) {
             req.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(req, resp);
         }

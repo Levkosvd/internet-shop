@@ -15,12 +15,14 @@ import mate.academy.internetshop.libr.Inject;
 import mate.academy.internetshop.model.Bucket;
 import mate.academy.internetshop.model.Item;
 import org.apache.log4j.Logger;
+
 @Dao
 public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao {
     private static Logger logger = Logger.getLogger(ItemDaoJdbcImpl.class);
 
     @Inject
     private static ItemDao itemDao;
+
     public BucketDaoJdbcImpl(Connection connection) {
         super(connection);
     }
@@ -28,7 +30,7 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
     @Override
     public void create(Bucket entity) {
         String query = "INSERT INTO internet_shop.buckets(user_id) VALUES (?);";
-        try(PreparedStatement createPrepStatement = connection.prepareStatement(query)){
+        try (PreparedStatement createPrepStatement = connection.prepareStatement(query)) {
             createPrepStatement.setLong(1, entity.getIdUser());
             createPrepStatement.executeUpdate();
         } catch (SQLException e) {
@@ -40,8 +42,8 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
     public Optional<Bucket> get(Long id) throws DataProcessingException {
         String query = "SELECT * FROM internet_shop.buckets WHERE bucket_id = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query);
-           ResultSet resultSet = preparedStatement.executeQuery()) {
-          preparedStatement.setLong(1, id);
+                ResultSet resultSet = preparedStatement.executeQuery()) {
+            preparedStatement.setLong(1, id);
             while (resultSet.next()) {
                 Bucket getBucket = new Bucket(resultSet.getLong("user_id"));
                 getBucket.setId(resultSet.getLong("bucket_id"));
@@ -85,7 +87,7 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
         String query = "SELECT * FROM internet_shop.buckets;";
         List<Bucket> bucketsList = new ArrayList<>();
         try (PreparedStatement showPrepStatement = connection.prepareStatement(query);
-            ResultSet resultSet = showPrepStatement.executeQuery()) {
+                ResultSet resultSet = showPrepStatement.executeQuery()) {
             while (resultSet.next()) {
                 Bucket bucket = new Bucket(resultSet.getLong("user_id"));
                 bucket.setId(resultSet.getLong("bucket_id"));

@@ -9,7 +9,8 @@ import mate.academy.internetshop.model.User;
 
 public interface UserDao extends GenericDao<User, Long> {
 
-    Optional<User> findByLogin(String login) throws AuthenticationException, DataProcessingException;
+    Optional<User> findByLogin(String login)
+            throws AuthenticationException, DataProcessingException;
 
     Optional<User> findByToken(String token) throws DataProcessingException;
 
