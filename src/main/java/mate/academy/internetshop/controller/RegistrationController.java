@@ -37,14 +37,8 @@ public class RegistrationController extends HttpServlet {
         newUser.setAccountBalance(Double.parseDouble(req.getParameter("balance")));
         try {
             userService.create(newUser);
-        } catch (DataProcessingException e) {
-            req.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(req, resp);
-        }
-
-        HttpSession httpSession = req.getSession(true);
-        httpSession.setAttribute("userId",newUser.getId());
-
-        try {
+            HttpSession httpSession = req.getSession(true);
+            httpSession.setAttribute("userId",newUser.getId());
             bucketService.create(new Bucket(newUser.getId()));
         } catch (DataProcessingException e) {
             req.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(req, resp);
