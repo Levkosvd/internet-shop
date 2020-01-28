@@ -1,7 +1,6 @@
 package mate.academy.internetshop.model;
 
 public class Role {
-    private static long ID = 0;
     private RoleName roleName;
     private Long id;
 
@@ -10,7 +9,6 @@ public class Role {
     }
 
     public Role(RoleName roleName) {
-        this.id = ++ID;
         this.roleName = roleName;
     }
 

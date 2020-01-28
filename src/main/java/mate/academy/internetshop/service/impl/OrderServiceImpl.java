@@ -6,15 +6,18 @@ import java.util.stream.Collectors;
 import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.libr.Inject;
 import mate.academy.internetshop.libr.Service;
+import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.model.Order;
+import mate.academy.internetshop.service.BucketService;
 import mate.academy.internetshop.service.OrderService;
-
 import mate.academy.internetshop.service.UserService;
 
 @Service
 public class OrderServiceImpl implements OrderService {
     @Inject
     private static OrderDao orderDao;
+    @Inject
+    private static BucketService bucketService;
     @Inject
     private static UserService userService;
 
@@ -46,12 +49,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order completeOrder(List items, Long userId) {
+    public Order completeOrder(List<Item> items, Long userId) {
         Order newOrder = new Order();
-        newOrder.getItems().addAll(items);
+        newOrder.setItems(items);
         newOrder.setIdUser(userId);
         newOrder.getTotalPrice();
         orderDao.create(newOrder);
+        bucketService.clear(bucketService.getByUser(userId));
         return orderDao.get(newOrder.getId()).get();
     }
 

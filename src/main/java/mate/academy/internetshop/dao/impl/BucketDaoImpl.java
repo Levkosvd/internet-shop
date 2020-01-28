@@ -7,6 +7,7 @@ import mate.academy.internetshop.dao.BucketDao;
 import mate.academy.internetshop.data.Storage;
 import mate.academy.internetshop.libr.Dao;
 import mate.academy.internetshop.model.Bucket;
+import mate.academy.internetshop.model.Item;
 
 @Dao
 public class BucketDaoImpl implements BucketDao {
@@ -49,5 +50,10 @@ public class BucketDaoImpl implements BucketDao {
     @Override
     public List<Bucket> getAll() {
         return Storage.buckets;
+    }
+
+    @Override
+    public void addItemToDb(Bucket bucket, Item item) {
+
     }
 }
