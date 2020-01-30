@@ -5,18 +5,27 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import mate.academy.internetshop.exeptions.DataProcessingException;
 import mate.academy.internetshop.libr.Inject;
 import mate.academy.internetshop.model.Bucket;
 import mate.academy.internetshop.service.BucketService;
+import org.apache.log4j.Logger;
 
 public class BucketController extends HttpServlet {
+    private static Logger logger = Logger.getLogger(BucketController.class);
     @Inject
     private static BucketService bucketService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        Bucket bucket = bucketService.getByUser((Long) req.getSession().getAttribute("userId"));
+        Bucket bucket = null;
+        try {
+            bucket = bucketService.getByUser((Long) req.getSession().getAttribute("userId"));
+        } catch (DataProcessingException e) {
+            logger.error("");
+            req.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(req, resp);
+        }
         req.setAttribute("bucketItems", bucket.getBucketItems());
         req.getRequestDispatcher("/WEB-INF/views/bucket.jsp").forward(req, resp);
     }

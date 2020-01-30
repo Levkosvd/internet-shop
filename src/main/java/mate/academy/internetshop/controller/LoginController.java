@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import mate.academy.internetshop.exeptions.AuthenticationException;
+import mate.academy.internetshop.exeptions.DataProcessingException;
 import mate.academy.internetshop.libr.Inject;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
@@ -32,7 +33,7 @@ public class LoginController extends HttpServlet {
             httpSession.setAttribute("userId", user.getId());
 
             resp.sendRedirect(req.getContextPath() + "/servlet/index");
-        } catch (AuthenticationException e) {
+        } catch (AuthenticationException | DataProcessingException e) {
             req.setAttribute("errorMessage", "Incorrect login or password");
             req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
         }
