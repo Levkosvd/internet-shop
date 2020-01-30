@@ -12,6 +12,7 @@ import mate.academy.internetshop.libr.Service;
 import mate.academy.internetshop.model.Bucket;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
+import mate.academy.internetshop.util.HashUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -50,8 +51,10 @@ public class UserServiceImpl implements UserService {
     public User login(String login, String password)
             throws AuthenticationException, DataProcessingException {
         Optional<User> user = userDao.findByLogin(login);
-
-        if (user.isEmpty() || !user.get().getPassword().equals(password)) {
+        byte[] t = user.get().getSalt();
+        String salt = HashUtil.hashPassword(password, user.get().getSalt());
+        if (user.isEmpty() || !user.get().getPassword()
+                .equals(HashUtil.hashPassword(password, user.get().getSalt()))) {
             throw new AuthenticationException("Incorrect login or password");
         }
         bucketDao.create(new Bucket(user.get().getId()));
