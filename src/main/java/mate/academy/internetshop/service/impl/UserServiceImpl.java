@@ -24,6 +24,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void create(User entity)
             throws DataProcessingException {
+        entity.setPassword(HashUtil.hashPassword(entity.getPassword(), entity.getSalt()));
         userDao.create(entity);
     }
 
