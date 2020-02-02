@@ -10,6 +10,7 @@ public class User {
     private String login;
     private String password;
     private String token;
+    private byte[] salt;
     private Set<Role> roles = new HashSet<>();
     private double accountBalance;
 
@@ -67,6 +68,14 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public byte[] getSalt() {
+        return salt;
+    }
+
+    public void setSalt(byte[] salt) {
+        this.salt = salt;
     }
 
     public Set<Role> getRoles() {

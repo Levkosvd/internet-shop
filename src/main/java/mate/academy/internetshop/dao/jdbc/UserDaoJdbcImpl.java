@@ -35,16 +35,18 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
     public void create(User entity) throws DataProcessingException {
         Long userId = null;
         String insert = "INSERT INTO internet_shop.users(login, password,"
-                + " account_balance, token, first_name, surname) "
-                + "VALUES (?,?,?,?,?,?);";
-        try (PreparedStatement preparedStatement = connection
-                .prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
-                ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                + " account_balance, token, first_name, surname, salt) "
+                + "VALUES (?,?,?,?,?,?,?);";
+        try {
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
             entity.setToken(UUID.randomUUID().toString());
             setParameters(entity, preparedStatement);
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
             while (resultSet.next()) {
                 userId = resultSet.getLong(1);
             }
+            entity.setId(userId);
             String insertRoles = "INSERT INTO "
                     + "internet_shop.role_user(user_id, role_id) VALUES (?, ?)";
             rolesForeach(insertRoles,entity,userId,connection);
@@ -74,9 +76,9 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
             throws DataProcessingException {
         String query = "UPDATE internet_shop.users SET "
                 + "login = ?, password = ?, account_balance = ?, "
-                + "token = ?, first_name = ?, surname = ? WHERE user_id = ?;";
+                + "token = ?, first_name = ?, surname = ?, salt = ? WHERE user_id = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query);) {
-            preparedStatement.setLong(7, entity.getId());
+            preparedStatement.setLong(8, entity.getId());
             setParameters(entity, preparedStatement);
         } catch (SQLException e) {
             throw new DataProcessingException("Can't update user", e);
@@ -175,6 +177,7 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
             getUser.setFirstName(resultSet.getString("first_name"));
             getUser.setSurname(resultSet.getString("surname"));
             getUser.setAccountBalance(resultSet.getDouble("account_balance"));
+            getUser.setSalt(resultSet.getBytes("salt"));
             getUser.setId(resultSet.getLong("user_id"));
             getUser.setRoles(getAllRolesForUser(getUser.getId()));
             return getUser;
@@ -193,6 +196,7 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
             preparedStatement.setString(4, entity.getToken());
             preparedStatement.setString(5, entity.getFirstName());
             preparedStatement.setString(6, entity.getSurname());
+            preparedStatement.setBytes(7, entity.getSalt());
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new DataProcessingException("Can't set parameters", e);

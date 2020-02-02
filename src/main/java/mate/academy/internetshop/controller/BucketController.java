@@ -23,7 +23,7 @@ public class BucketController extends HttpServlet {
         try {
             bucket = bucketService.getByUser((Long) req.getSession().getAttribute("userId"));
         } catch (DataProcessingException e) {
-            logger.error("");
+            logger.error(e);
             req.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(req, resp);
         }
         req.setAttribute("bucketItems", bucket.getBucketItems());
