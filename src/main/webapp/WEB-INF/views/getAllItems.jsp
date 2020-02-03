@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<jsp:useBean id="itemList" scope="request" type="java.util.List<mate.academy.internetshop.model.Item>"/>
+<jsp:useBean id="itemList" scope="request" type="java.util.List<internetshop.model.Item>"/>
 <html>
 <head>
     <title>All Items</title>
