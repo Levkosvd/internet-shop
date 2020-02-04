@@ -1,8 +1,8 @@
 package internetshop.dao;
 
+import internetshop.exeptions.DataProcessingException;
 import java.util.List;
 import java.util.Optional;
-import internetshop.exeptions.DataProcessingException;
 
 public interface GenericDao<T, I> {
     void create(T entity) throws DataProcessingException;

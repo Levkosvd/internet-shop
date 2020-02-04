@@ -1,8 +1,5 @@
 package internetshop.service.impl;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 import internetshop.dao.BucketDao;
 import internetshop.dao.UserDao;
 import internetshop.exeptions.AuthenticationException;
@@ -13,6 +10,9 @@ import internetshop.model.Bucket;
 import internetshop.model.User;
 import internetshop.service.UserService;
 import internetshop.util.HashUtil;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {

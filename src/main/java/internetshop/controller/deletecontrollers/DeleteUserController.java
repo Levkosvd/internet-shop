@@ -1,13 +1,13 @@
 package internetshop.controller.deletecontrollers;
 
+import internetshop.exeptions.DataProcessingException;
+import internetshop.lib.Inject;
+import internetshop.service.UserService;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import internetshop.exeptions.DataProcessingException;
-import internetshop.lib.Inject;
-import internetshop.service.UserService;
 
 public class DeleteUserController extends HttpServlet {
     @Inject

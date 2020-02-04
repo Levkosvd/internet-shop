@@ -1,7 +1,7 @@
 package internetshop.service;
 
-import java.util.List;
 import internetshop.exeptions.DataProcessingException;
+import java.util.List;
 
 public interface GenericService<T, I> {
 

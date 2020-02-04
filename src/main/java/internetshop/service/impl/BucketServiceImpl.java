@@ -1,8 +1,5 @@
 package internetshop.service.impl;
 
-import java.util.List;
-
-import java.util.NoSuchElementException;
 import internetshop.dao.BucketDao;
 import internetshop.dao.ItemDao;
 import internetshop.exeptions.DataProcessingException;
@@ -11,6 +8,8 @@ import internetshop.lib.Service;
 import internetshop.model.Bucket;
 import internetshop.model.Item;
 import internetshop.service.BucketService;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class BucketServiceImpl implements BucketService {

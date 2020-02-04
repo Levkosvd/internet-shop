@@ -1,5 +1,12 @@
 package internetshop.dao.jdbc;
 
+import internetshop.dao.RoleDao;
+import internetshop.dao.UserDao;
+import internetshop.exeptions.DataProcessingException;
+import internetshop.lib.Dao;
+import internetshop.lib.Inject;
+import internetshop.model.Role;
+import internetshop.model.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,13 +18,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import internetshop.dao.RoleDao;
-import internetshop.dao.UserDao;
-import internetshop.exeptions.DataProcessingException;
-import internetshop.lib.Dao;
-import internetshop.lib.Inject;
-import internetshop.model.Role;
-import internetshop.model.User;
 import org.apache.log4j.Logger;
 
 @Dao
@@ -153,7 +153,8 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
             for (Role roleOfDatabase: roles) {
                 if (roleOfUser.getRoleName().equals(roleOfDatabase.getRoleName())) {
                     try {
-                        PreparedStatement preparedStatement = connection.prepareStatement(insertRoles);
+                        PreparedStatement preparedStatement = connection
+                                .prepareStatement(insertRoles);
                         preparedStatement.setLong(1, userId);
                         preparedStatement.setLong(2, roleOfDatabase.getId());
                         preparedStatement.execute();

@@ -1,5 +1,9 @@
 package internetshop.controller;
 
+import internetshop.exeptions.DataProcessingException;
+import internetshop.lib.Inject;
+import internetshop.model.User;
+import internetshop.service.UserService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,10 +11,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import internetshop.exeptions.DataProcessingException;
-import internetshop.lib.Inject;
-import internetshop.model.User;
-import internetshop.service.UserService;
 
 public class GetAllUsersController extends HttpServlet {
     @Inject

@@ -1,11 +1,5 @@
 package internetshop.controller;
 
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import internetshop.exeptions.DataProcessingException;
 import internetshop.lib.Inject;
 import internetshop.model.Bucket;
@@ -13,6 +7,12 @@ import internetshop.model.User;
 import internetshop.service.BucketService;
 import internetshop.service.UserService;
 import internetshop.util.HashUtil;
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class RegistrationController extends HttpServlet {
     @Inject

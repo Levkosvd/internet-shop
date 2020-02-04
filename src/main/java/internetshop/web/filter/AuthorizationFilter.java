@@ -1,5 +1,10 @@
 package internetshop.web.filter;
 
+import internetshop.exeptions.DataProcessingException;
+import internetshop.lib.Inject;
+import internetshop.model.Role;
+import internetshop.model.User;
+import internetshop.service.UserService;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,11 +16,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import internetshop.exeptions.DataProcessingException;
-import internetshop.lib.Inject;
-import internetshop.model.Role;
-import internetshop.model.User;
-import internetshop.service.UserService;
 
 public class AuthorizationFilter implements Filter {
     private static final String EMPTY_STRING = "";

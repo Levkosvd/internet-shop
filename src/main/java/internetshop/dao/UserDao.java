@@ -1,11 +1,11 @@
 package internetshop.dao;
 
-import java.util.Optional;
-import java.util.Set;
 import internetshop.exeptions.AuthenticationException;
 import internetshop.exeptions.DataProcessingException;
 import internetshop.model.Role;
 import internetshop.model.User;
+import java.util.Optional;
+import java.util.Set;
 
 public interface UserDao extends GenericDao<User, Long> {
 

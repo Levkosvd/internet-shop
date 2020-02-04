@@ -1,14 +1,14 @@
 package internetshop.dao.jdbc;
 
+import internetshop.dao.RoleDao;
+import internetshop.lib.Dao;
+import internetshop.model.Role;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
-import internetshop.dao.RoleDao;
-import internetshop.lib.Dao;
-import internetshop.model.Role;
 
 @Dao
 public class RoleDaoJdbcImpl extends AbstractDao<Role> implements RoleDao {

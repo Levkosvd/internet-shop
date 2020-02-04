@@ -1,8 +1,5 @@
 package internetshop.service.impl;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 import internetshop.dao.OrderDao;
 import internetshop.exeptions.DataProcessingException;
 import internetshop.lib.Inject;
@@ -12,6 +9,9 @@ import internetshop.model.Order;
 import internetshop.service.BucketService;
 import internetshop.service.OrderService;
 import internetshop.service.UserService;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {

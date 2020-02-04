@@ -1,7 +1,5 @@
 package internetshop.factory;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import internetshop.dao.BucketDao;
 import internetshop.dao.ItemDao;
 import internetshop.dao.OrderDao;
@@ -20,6 +18,8 @@ import internetshop.service.impl.BucketServiceImpl;
 import internetshop.service.impl.ItemServiceImpl;
 import internetshop.service.impl.OrderServiceImpl;
 import internetshop.service.impl.UserServiceImpl;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import org.apache.log4j.Logger;
 
 public class Factory {

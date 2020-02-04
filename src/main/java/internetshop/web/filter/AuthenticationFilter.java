@@ -1,5 +1,8 @@
 package internetshop.web.filter;
 
+import internetshop.exeptions.DataProcessingException;
+import internetshop.lib.Inject;
+import internetshop.service.UserService;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -9,9 +12,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import internetshop.exeptions.DataProcessingException;
-import internetshop.lib.Inject;
-import internetshop.service.UserService;
 import org.apache.log4j.Logger;
 
 public class AuthenticationFilter implements Filter {

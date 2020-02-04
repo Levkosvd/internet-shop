@@ -1,7 +1,7 @@
 package internetshop.dao;
 
-import java.util.Set;
 import internetshop.model.Role;
+import java.util.Set;
 
 public interface RoleDao {
 
