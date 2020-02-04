@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<jsp:useBean id="itemList" scope="request" type="java.util.List<mate.academy.internetshop.model.Item>"/>
+<jsp:useBean id="itemList" scope="request" type="java.util.List<internetshop.model.Item>"/>
 <html>
 <head>
     <title>All Items</title>
@@ -39,8 +39,8 @@
     </c:forEach>
 </table>
 <br>
-<a href="/internet_shop_war_exploded/servlet/addItem">Add Item to List</a>
+<a href="${pageContext.request.contextPath}/servlet/addItem">Add Item to List</a>
 <br>
-<a href="/internet_shop_war_exploded/servlet/index">Back to Main Menu</a>
+<a href="${pageContext.request.contextPath}/servlet/index">Back to Main Menu</a>
 </body>
 </html>

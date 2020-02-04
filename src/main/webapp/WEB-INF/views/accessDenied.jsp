@@ -6,6 +6,6 @@
 <body>
 <h3>You do not have access to this page</h3>
 <br>
-<a href="/internet_shop_war_exploded/servlet/index">Back to Main Menu </a>
+<a href="${pageContext.request.contextPath}/servlet/index">Back to Main Menu </a>
 </body>
 </html>

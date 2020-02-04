@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<jsp:useBean id="bucketItems" scope="request" type="java.util.List<mate.academy.internetshop.model.Item>"/>
+<jsp:useBean id="bucketItems" scope="request" type="java.util.List<internetshop.model.Item>"/>
 <html>
 <head>
     <title>Bucket</title>
@@ -34,9 +34,9 @@
 </table>
 <br>
 <button>
-    <a href="/internet_shop_war_exploded/servlet/checkoutOrder">Checkout </a>
+    <a href="${pageContext.request.contextPath}/servlet/checkoutOrder">Checkout </a>
 </button>
 <br>
-<a href="/internet_shop_war_exploded/servlet/index">Back to Main Menu</a>
+<a href="${pageContext.request.contextPath}/servlet/index">Back to Main Menu</a>
 </body>
 </html>

@@ -7,25 +7,25 @@
 MAIN MENU
 <hr>
 <button>
-    <a href="/internet_shop_war_exploded/registration">Registration </a>
+    <a href="${pageContext.request.contextPath}/registration">Registration </a>
 </button>
 <button>
-    <a href="/internet_shop_war_exploded/servlet/getAllUsers">Show all Users</a>
+    <a href="${pageContext.request.contextPath}/servlet/getAllUsers">Show all Users</a>
 </button>
 <button>
-    <a href="/internet_shop_war_exploded/servlet/getAllItems">Show all Items </a>
+    <a href="${pageContext.request.contextPath}/servlet/getAllItems">Show all Items </a>
 </button>
 <button>
-    <a href="/internet_shop_war_exploded/servlet/bucket">Show current Bucket </a>
+    <a href="${pageContext.request.contextPath}/servlet/bucket">Show current Bucket </a>
 </button>
 <button>
-    <a href="/internet_shop_war_exploded/servlet/addItem">Add Item </a>
+    <a href="${pageContext.request.contextPath}/servlet/addItem">Add Item </a>
 </button>
 <button>
-    <a href="/internet_shop_war_exploded/servlet/getAllOrders">Show all orders of User</a>
+    <a href="${pageContext.request.contextPath}/servlet/getAllOrders">Show all orders of User</a>
 </button>
 <button>
-    <a href="/internet_shop_war_exploded/servlet/logout">Logout</a>
+    <a href="${pageContext.request.contextPath}/servlet/logout">Logout</a>
 </button>
 </body>
 </html>
