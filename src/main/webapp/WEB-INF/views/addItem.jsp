@@ -4,7 +4,7 @@
     <title>AddItemInLIst</title>
 </head>
 <body>
-<form action="/internet_shop_war_exploded/servlet/addItem" method="post">
+<form action="${pageContext.request.contextPath}/servlet/addItem" method="post">
     <div class="container">
         <h1>Add Item in List</h1>
         <p>Please fill in this form to add an item.</p>
@@ -19,6 +19,6 @@
     </div>
 </form>
 <br>
-<a href="/internet_shop_war_exploded/servlet/index">Back to Main Menu </a>
+<a href="${pageContext.request.contextPath}/servlet/index">Back to Main Menu </a>
 </body>
 </html>

@@ -12,19 +12,19 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import internetshop.exeptions.DataProcessingException;
-import internetshop.libr.Inject;
+import internetshop.lib.Inject;
 import internetshop.model.Role;
 import internetshop.model.User;
 import internetshop.service.UserService;
 
 public class AuthorizationFilter implements Filter {
-    public static final String EMPTY_STRING = "";
+    private static final String EMPTY_STRING = "";
     @Inject
     private  static UserService userService;
     private Map<String, Role.RoleName> protectedUrls = new HashMap<>();
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         protectedUrls.put("/servlet/getAllUsers", Role.RoleName.ADMIN);
         protectedUrls.put("/servlet/deleteUser", Role.RoleName.ADMIN);
         protectedUrls.put("/servlet/addItem", Role.RoleName.ADMIN);
@@ -61,19 +61,13 @@ public class AuthorizationFilter implements Filter {
         if (verifyRole(user, roleNamePage)) {
             processAuthenticated(req, resp, filterChain);
             return;
-        } else {
-            processDenied(req, resp);
-            return;
         }
+        processDenied(req, resp);
+
     }
 
     private boolean verifyRole(User user, Role.RoleName roleNameUser) {
         return user.getRoles().stream().anyMatch(role -> role.getRoleName().equals(roleNameUser));
-    }
-
-    private void processUnAuthenticated(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException {
-        resp.sendRedirect(req.getContextPath() + "/login");
     }
 
     private void processAuthenticated(HttpServletRequest req,

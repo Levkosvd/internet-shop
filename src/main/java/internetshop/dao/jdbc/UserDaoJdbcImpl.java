@@ -14,8 +14,8 @@ import java.util.UUID;
 import internetshop.dao.RoleDao;
 import internetshop.dao.UserDao;
 import internetshop.exeptions.DataProcessingException;
-import internetshop.libr.Dao;
-import internetshop.libr.Inject;
+import internetshop.lib.Dao;
+import internetshop.lib.Inject;
 import internetshop.model.Role;
 import internetshop.model.User;
 import org.apache.log4j.Logger;
@@ -47,9 +47,7 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
                 userId = resultSet.getLong(1);
             }
             entity.setId(userId);
-            String insertRoles = "INSERT INTO "
-                    + "internet_shop.role_user(user_id, role_id) VALUES (?, ?)";
-            rolesForeach(insertRoles,entity,userId,connection);
+            rolesForeach(entity,userId,connection);
         } catch (SQLException e) {
             throw new DataProcessingException("Can't add user", e);
         }
@@ -88,10 +86,9 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
     @Override
     public boolean deleteById(Long id)
             throws DataProcessingException {
-        PreparedStatement preparedStatement = null;
         String query = "DELETE FROM internet_shop.users WHERE user_id = ?;";
         try {
-            preparedStatement = connection.prepareStatement(query);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setLong(1, id);
             if (preparedStatement.executeUpdate() == 1) {
                 logger.info("Success delete");
@@ -147,15 +144,16 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
         return Optional.empty();
     }
 
-    private static void rolesForeach(String query, User user, Long userId, Connection connection)
+    private static void rolesForeach(User user, Long userId, Connection connection)
             throws DataProcessingException {
-        PreparedStatement preparedStatement = null;
+        String insertRoles = "INSERT INTO "
+                + "internet_shop.role_user(user_id, role_id) VALUES (?, ?)";
         Set<Role> roles = roleDao.getAllRoles();
         for (Role roleOfUser : user.getRoles()) {
             for (Role roleOfDatabase: roles) {
                 if (roleOfUser.getRoleName().equals(roleOfDatabase.getRoleName())) {
                     try {
-                        preparedStatement = connection.prepareStatement(query);
+                        PreparedStatement preparedStatement = connection.prepareStatement(insertRoles);
                         preparedStatement.setLong(1, userId);
                         preparedStatement.setLong(2, roleOfDatabase.getId());
                         preparedStatement.execute();
@@ -205,15 +203,13 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
 
     @Override
     public Set<Role> getAllRolesForUser(Long userId) throws DataProcessingException {
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         Set<Role> allRoles = new HashSet<>();
         String getAllRoles = "SELECT * FROM role_user "
                 + "JOIN roles ON role_user.role_id = roles.role_id WHERE user_id = ? ;";
         try {
-            preparedStatement = connection.prepareStatement(getAllRoles);
+            PreparedStatement preparedStatement = connection.prepareStatement(getAllRoles);
             preparedStatement.setLong(1, userId);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Role role = Role.of(resultSet.getString("role_name"));
                 role.setId(resultSet.getLong("role_id"));

@@ -1,5 +1,10 @@
 package internetshop.dao.jdbc;
 
+import internetshop.dao.BucketDao;
+import internetshop.exeptions.DataProcessingException;
+import internetshop.lib.Dao;
+import internetshop.model.Bucket;
+import internetshop.model.Item;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,21 +12,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import internetshop.dao.BucketDao;
-import internetshop.dao.ItemDao;
-import internetshop.exeptions.DataProcessingException;
-import internetshop.libr.Dao;
-import internetshop.libr.Inject;
-import internetshop.model.Bucket;
-import internetshop.model.Item;
 import org.apache.log4j.Logger;
 
 @Dao
 public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao {
     private static Logger logger = Logger.getLogger(ItemDaoJdbcImpl.class);
-
-    @Inject
-    private static ItemDao itemDao;
 
     public BucketDaoJdbcImpl(Connection connection) {
         super(connection);
@@ -44,7 +39,7 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query);
                 ResultSet resultSet = preparedStatement.executeQuery()) {
             preparedStatement.setLong(1, id);
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 Bucket getBucket = new Bucket(resultSet.getLong("user_id"));
                 getBucket.setId(resultSet.getLong("bucket_id"));
                 getBucket.getBucketItems().addAll(getAllItemsFromBucket(getBucket.getId()));

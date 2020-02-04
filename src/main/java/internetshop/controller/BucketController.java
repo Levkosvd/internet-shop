@@ -6,13 +6,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import internetshop.exeptions.DataProcessingException;
-import internetshop.libr.Inject;
+import internetshop.lib.Inject;
 import internetshop.model.Bucket;
 import internetshop.service.BucketService;
 import org.apache.log4j.Logger;
 
 public class BucketController extends HttpServlet {
-    private static Logger logger = Logger.getLogger(BucketController.class);
+    private static Logger LOGGER = Logger.getLogger(BucketController.class);
     @Inject
     private static BucketService bucketService;
 
@@ -23,7 +23,7 @@ public class BucketController extends HttpServlet {
         try {
             bucket = bucketService.getByUser((Long) req.getSession().getAttribute("userId"));
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
             req.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(req, resp);
         }
         req.setAttribute("bucketItems", bucket.getBucketItems());

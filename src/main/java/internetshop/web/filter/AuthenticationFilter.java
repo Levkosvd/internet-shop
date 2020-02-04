@@ -10,14 +10,14 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import internetshop.exeptions.DataProcessingException;
-import internetshop.libr.Inject;
+import internetshop.lib.Inject;
 import internetshop.service.UserService;
 import org.apache.log4j.Logger;
 
 public class AuthenticationFilter implements Filter {
     @Inject
     private static UserService userService;
-    private static final Logger logger = Logger.getLogger(AuthenticationFilter.class);
+    private static final Logger LOGGER = Logger.getLogger(AuthenticationFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -32,7 +32,7 @@ public class AuthenticationFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         if (req.getSession() != null && req.getSession().getAttribute("userId") != null) {
             try {
-                logger.info("User " + userService.get((Long) req.getSession()
+                LOGGER.info("User " + userService.get((Long) req.getSession()
                         .getAttribute("userId")) + " was authenticated");
             } catch (DataProcessingException e) {
                 req.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(req, resp);
@@ -40,7 +40,7 @@ public class AuthenticationFilter implements Filter {
             filterChain.doFilter(servletRequest,servletResponse);
             return;
         }
-        logger.info("Authentication failed");
+        LOGGER.info("Authentication failed");
         processUnAuthenticated(req,resp);
     }
 

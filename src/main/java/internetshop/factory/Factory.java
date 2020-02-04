@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
 
 public class Factory {
     public static Connection connection;
-    private static Logger logger = Logger.getLogger(Factory.class);
+    private static Logger LOGGER = Logger.getLogger(Factory.class);
 
     private static ItemDao itemDao;
     private static BucketDao bucketDao;
@@ -44,9 +44,9 @@ public class Factory {
                     .getConnection("jdbc:mysql://localhost/internet_shop?serverTimezone=EET",
                     "root",
                     "l30081956");
-            logger.info("Connection success");
+            LOGGER.info("Connection success");
         } catch (Exception ex) {
-            logger.warn("Connection failed...");
+            LOGGER.warn("Connection failed...");
             ex.printStackTrace();
         }
     }

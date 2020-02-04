@@ -2,7 +2,7 @@ package internetshop.controller;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import internetshop.libr.Injector;
+import internetshop.lib.Injector;
 
 public class InjectInit implements ServletContextListener {
     @Override

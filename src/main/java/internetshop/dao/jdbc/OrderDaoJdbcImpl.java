@@ -1,5 +1,10 @@
 package internetshop.dao.jdbc;
 
+import internetshop.dao.OrderDao;
+import internetshop.exeptions.DataProcessingException;
+import internetshop.lib.Dao;
+import internetshop.model.Item;
+import internetshop.model.Order;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,20 +13,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import internetshop.dao.ItemDao;
-import internetshop.dao.OrderDao;
-import internetshop.exeptions.DataProcessingException;
-import internetshop.libr.Dao;
-import internetshop.libr.Inject;
-import internetshop.model.Item;
-import internetshop.model.Order;
 import org.apache.log4j.Logger;
 
 @Dao
 public class OrderDaoJdbcImpl extends AbstractDao<Order> implements OrderDao {
-    private static Logger logger = Logger.getLogger(ItemDaoJdbcImpl.class);
-    @Inject
-    private static ItemDao itemDao;
+    private static Logger LOGGER = Logger.getLogger(ItemDaoJdbcImpl.class);
 
     public OrderDaoJdbcImpl(Connection connection) {
         super(connection);
@@ -40,7 +36,7 @@ public class OrderDaoJdbcImpl extends AbstractDao<Order> implements OrderDao {
             }
             addItemToDb(entity);
         } catch (SQLException e) {
-            logger.warn("Can't add item by id - " + entity.getId(), e);
+            LOGGER.warn("Can't add item by id - " + entity.getId(), e);
         }
     }
 
@@ -52,7 +48,7 @@ public class OrderDaoJdbcImpl extends AbstractDao<Order> implements OrderDao {
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 Order getBucket = new Order();
                 getBucket.setIdUser(resultSet.getLong("user_id"));
                 getBucket.setId(resultSet.getLong("order_id"));
@@ -83,11 +79,11 @@ public class OrderDaoJdbcImpl extends AbstractDao<Order> implements OrderDao {
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1,id);
             if (preparedStatement.executeUpdate() == 1) {
-                logger.info("Success delete");
+                LOGGER.info("Success delete");
                 return true;
             }
         } catch (SQLException e) {
-            logger.warn("Can't delete item by id - " + id, e);
+            LOGGER.warn("Can't delete item by id - " + id, e);
         }
         return false;
     }

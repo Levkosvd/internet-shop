@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import internetshop.exeptions.AuthenticationException;
 import internetshop.exeptions.DataProcessingException;
-import internetshop.libr.Inject;
+import internetshop.lib.Inject;
 import internetshop.model.User;
 import internetshop.service.UserService;
 

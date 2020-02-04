@@ -7,8 +7,8 @@ import internetshop.dao.BucketDao;
 import internetshop.dao.UserDao;
 import internetshop.exeptions.AuthenticationException;
 import internetshop.exeptions.DataProcessingException;
-import internetshop.libr.Inject;
-import internetshop.libr.Service;
+import internetshop.lib.Inject;
+import internetshop.lib.Service;
 import internetshop.model.Bucket;
 import internetshop.model.User;
 import internetshop.service.UserService;
@@ -58,13 +58,6 @@ public class UserServiceImpl implements UserService {
         }
         bucketDao.create(new Bucket(user.get().getId()));
         return user.get();
-    }
-
-    @Override
-    public Optional<User> findByToken(String token)
-            throws DataProcessingException {
-        return userDao.findByToken(token);
-
     }
 
     @Override

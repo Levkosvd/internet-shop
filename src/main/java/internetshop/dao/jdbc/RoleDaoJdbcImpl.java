@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 import internetshop.dao.RoleDao;
-import internetshop.libr.Dao;
+import internetshop.lib.Dao;
 import internetshop.model.Role;
 
 @Dao
@@ -19,11 +19,10 @@ public class RoleDaoJdbcImpl extends AbstractDao<Role> implements RoleDao {
 
     @Override
     public Role getRole(Long id) {
-        ResultSet resultSet = null;
         String getRoleById = "SELECT * FROM roles WHERE role_id = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(getRoleById)) {
             preparedStatement.setLong(1, id);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             Role role = Role.of(resultSet.getString("role_name"));
             role.setId((long) resultSet.getInt("role_id"));
             return role;
@@ -35,11 +34,10 @@ public class RoleDaoJdbcImpl extends AbstractDao<Role> implements RoleDao {
 
     @Override
     public Set<Role> getAllRoles() {
-        ResultSet resultSet = null;
         Set<Role> allRoles = new HashSet<>();
         String getAllRoles = "SELECT * FROM roles;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(getAllRoles)) {
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Role role = Role.of(resultSet.getString("role_name"));
                 role.setId(resultSet.getLong("role_id"));

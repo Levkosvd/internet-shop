@@ -1,4 +1,4 @@
-package internetshop.libr;
+package internetshop.lib;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.util.List;
 import internetshop.dao.UserDao;
 
 public class Injector {
-    private static final String PROJECT_MAIN_PACKAGE = "mate.academy.internetshop";
+    private static final String PROJECT_MAIN_PACKAGE = "internetshop";
     private static List<Class> classes = new ArrayList<>();
 
     static {

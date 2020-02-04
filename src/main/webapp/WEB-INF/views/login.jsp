@@ -7,7 +7,7 @@
 <body>
 Hello login!
 ${errorMessage}
-<form action="/internet_shop_war_exploded/login" method="post">
+<form action="${pageContext.request.contextPath}/login" method="post">
     <div class="container">
         <h1>Sign in</h1>
         <p>Please fill in this form to sign in account.</p>
@@ -22,7 +22,7 @@ ${errorMessage}
     </div>
 
     <div class="container signin">
-        <p>Don't have an account? <a href="/internet_shop_war_exploded/registration">Sign up</a>.</p>
+        <p>Don't have an account? <a href="${pageContext.request.contextPath}/registration">Sign up</a>.</p>
     </div>
 </form>
 </body>

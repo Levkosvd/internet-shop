@@ -1,4 +1,4 @@
-package internetshop.libr;
+package internetshop.lib;
 
 import java.util.HashMap;
 import java.util.Map;

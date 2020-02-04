@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import internetshop.exeptions.DataProcessingException;
-import internetshop.libr.Inject;
+import internetshop.lib.Inject;
 import internetshop.model.Bucket;
 import internetshop.service.BucketService;
 import internetshop.service.ItemService;
@@ -20,9 +20,8 @@ public class AddItemToBucketController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        Bucket bucket = null;
         try {
-            bucket = bucketService.getByUser((Long) req.getSession().getAttribute("userId"));
+            Bucket bucket = bucketService.getByUser((Long) req.getSession().getAttribute("userId"));
             req.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(req, resp);
             bucketService.addItem(bucket,
                     itemService.get(Long.valueOf(req.getParameter("itemId"))));

@@ -34,9 +34,9 @@
 </table>
 <br>
 <button>
-    <a href="/internet_shop_war_exploded/servlet/checkoutOrder">Checkout </a>
+    <a href="${pageContext.request.contextPath}/servlet/checkoutOrder">Checkout </a>
 </button>
 <br>
-<a href="/internet_shop_war_exploded/servlet/index">Back to Main Menu</a>
+<a href="${pageContext.request.contextPath}/servlet/index">Back to Main Menu</a>
 </body>
 </html>

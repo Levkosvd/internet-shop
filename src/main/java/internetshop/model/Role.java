@@ -8,7 +8,7 @@ public class Role {
         USER, ADMIN;
     }
 
-    public Role(RoleName roleName) {
+    private Role(RoleName roleName) {
         this.roleName = roleName;
     }
 

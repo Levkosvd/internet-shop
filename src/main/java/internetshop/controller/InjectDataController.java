@@ -1,18 +1,18 @@
 package internetshop.controller;
 
+import internetshop.exeptions.DataProcessingException;
+import internetshop.lib.Inject;
+import internetshop.model.Item;
+import internetshop.model.Role;
+import internetshop.model.User;
+import internetshop.service.ItemService;
+import internetshop.service.UserService;
+import internetshop.util.HashUtil;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import internetshop.exeptions.DataProcessingException;
-import internetshop.libr.Inject;
-import internetshop.model.Item;
-import internetshop.model.Role;
-import internetshop.model.User;
-import internetshop.service.BucketService;
-import internetshop.service.ItemService;
-import internetshop.service.UserService;
 
 public class InjectDataController extends HttpServlet {
     @Inject
@@ -20,9 +20,6 @@ public class InjectDataController extends HttpServlet {
 
     @Inject
     private static ItemService itemService;
-
-    @Inject
-    private static BucketService bucketService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -34,6 +31,7 @@ public class InjectDataController extends HttpServlet {
         newAdmin.setFirstName("Donald");
         newAdmin.setSurname("Trump");
         newAdmin.setAccountBalance(50000.0);
+        newAdmin.setSalt(HashUtil.getRandomSalt());
 
         User newUser = new User();
         newUser.addRole(Role.of("USER"));
@@ -42,6 +40,7 @@ public class InjectDataController extends HttpServlet {
         newUser.setFirstName("Joe ");
         newUser.setSurname("Biden");
         newUser.setAccountBalance(12000.0);
+        newUser.setSalt(HashUtil.getRandomSalt());
 
         try {
             userService.create(newAdmin);
@@ -53,10 +52,6 @@ public class InjectDataController extends HttpServlet {
         } catch (DataProcessingException e) {
             req.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(req, resp);
         }
-
-
-
-
         resp.sendRedirect(req.getContextPath() + "/login");
     }
 }

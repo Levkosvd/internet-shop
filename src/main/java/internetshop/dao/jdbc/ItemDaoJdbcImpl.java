@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import internetshop.dao.ItemDao;
 import internetshop.exeptions.DataProcessingException;
-import internetshop.libr.Dao;
+import internetshop.lib.Dao;
 import internetshop.model.Item;
 
 @Dao
@@ -37,7 +37,7 @@ public class ItemDaoJdbcImpl extends AbstractDao<Item> implements ItemDao {
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 Item getItem = new Item(resultSet.getString("name"),
                         resultSet.getDouble("price"));
                 getItem.setId(resultSet.getLong("item_id"));

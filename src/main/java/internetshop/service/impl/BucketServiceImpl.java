@@ -6,8 +6,8 @@ import java.util.NoSuchElementException;
 import internetshop.dao.BucketDao;
 import internetshop.dao.ItemDao;
 import internetshop.exeptions.DataProcessingException;
-import internetshop.libr.Inject;
-import internetshop.libr.Service;
+import internetshop.lib.Inject;
+import internetshop.lib.Service;
 import internetshop.model.Bucket;
 import internetshop.model.Item;
 import internetshop.service.BucketService;
@@ -81,8 +81,4 @@ public class BucketServiceImpl implements BucketService {
             .orElseThrow(() -> new NoSuchElementException("Cant find bucket by this ID of User!"));
     }
 
-    @Override
-    public List<Item> getAllItems(Bucket bucket) {
-        return bucket.getBucketItems();
-    }
 }
